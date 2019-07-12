@@ -18,6 +18,8 @@ ext {
 }
 
 dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
     implementation 'com.vaadin:vaadin-spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
