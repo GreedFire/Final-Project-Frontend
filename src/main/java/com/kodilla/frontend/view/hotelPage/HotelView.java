@@ -63,7 +63,7 @@ public class HotelView extends VerticalLayout {
 
     private void drawSearchResults(List<HotelListDto> response) {
         searchResultLayout.removeAll();
-        searchResultLayout.add(HotelSearch.drawHotelResults(response));
+        searchResultLayout.add(HotelSearch.drawHotelResults(response, true));
 
     }
 

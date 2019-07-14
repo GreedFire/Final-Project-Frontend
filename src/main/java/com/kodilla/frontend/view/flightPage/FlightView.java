@@ -57,7 +57,7 @@ public class FlightView extends VerticalLayout {
 
     private void drawSearchResults(FlightDto response) {
         searchResultLayout.removeAll();
-        searchResultLayout.add(FlightSearch.drawFlightResults(response));
+        searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
 
     }
 

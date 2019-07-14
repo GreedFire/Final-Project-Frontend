@@ -12,9 +12,10 @@ import java.util.List;
 
 public class HotelSearch {
 
-    public static Div drawHotelResults(List<HotelListDto> response) {
+    public static Div drawHotelResults(List<HotelListDto> response, boolean marginAuto) {
         Div result = new Div();
-        result.getStyle().set("margin", "auto");
+        if(marginAuto)
+             result.getStyle().set("margin", "auto");
         for (HotelListDto hotel : response) {
             Div div = new Div();
             div.getStyle().set("margin-bottom", "5px");

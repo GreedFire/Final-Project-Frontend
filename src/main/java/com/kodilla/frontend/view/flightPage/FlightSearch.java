@@ -11,9 +11,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import java.time.format.DateTimeFormatter;
 
 public class FlightSearch {
-    public static Div drawFlightResults(FlightDto response) {
+    public static Div drawFlightResults(FlightDto response, boolean marginAuto) {
         Div resultDiv = new Div();
-        resultDiv.getStyle().set("margin", "auto");
+        if(marginAuto)
+             resultDiv.getStyle().set("margin", "auto");
         Label origin = new Label(response.getOrigin());
         Label to = new Label("to");
         Label destination = new Label(response.getDestination());
@@ -31,7 +32,7 @@ public class FlightSearch {
             Button bookButton = new Button("Book");
             carrierDiv.getStyle().set("margin-bottom", "5px");
             carrierDiv.getStyle().set("margin", "auto");
-            carrierDiv.getStyle().set("width", "600px");
+            carrierDiv.getStyle().set("width", "400px");
             carrierDiv.getStyle().set("border-style", "solid");
             carrierDiv.getStyle().set("border-width", "2px");
             carrierDiv.getStyle().set("border-width", "2px");
