@@ -4,14 +4,16 @@ package com.kodilla.frontend.domain.dto.hotel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HotelDto {
 
@@ -28,7 +30,7 @@ public class HotelDto {
     private String shareURL;
 
     @JsonProperty("hotelset")
-    private HotelSetDto[] hotels;
+    private List<HotelListDto> hotels;
 
     @Override
     public String toString() {
@@ -37,7 +39,15 @@ public class HotelDto {
                 ", currency='" + currency + '\'' +
                 ", destinationLocation='" + destinationLocation + '\'' +
                 ", shareURL='" + shareURL + '\'' +
-                ", hotelSet=" + Arrays.toString(hotels) +
+                ", hotels=" + hotels +
                 '}';
     }
+
+    public HotelDto(String searchId, String currency, String destinationLocation, String shareURL) {
+        this.searchId = searchId;
+        this.currency = currency;
+        this.destinationLocation = destinationLocation;
+        this.shareURL = shareURL;
+    }
 }
+

@@ -1,20 +1,21 @@
 package com.kodilla.frontend.view.hotelPage;
 
-import com.kodilla.frontend.domain.dto.hotel.HotelSetDto;
+import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import lombok.Getter;
 
-@Getter
+import java.util.List;
+
 public class HotelSearch {
 
-    public static VerticalLayout drawHotelResults(HotelSetDto[] response){
-        VerticalLayout verticalLayout = new VerticalLayout();
-        for(HotelSetDto hotel : response){
+    public static Div drawHotelResults(List<HotelListDto> response) {
+        Div result = new Div();
+        result.getStyle().set("margin", "auto");
+        for (HotelListDto hotel : response) {
             Div div = new Div();
             div.getStyle().set("margin-bottom", "5px");
             div.getStyle().set("margin", "auto");
@@ -31,7 +32,7 @@ public class HotelSearch {
             adress.getStyle().set("margin-top", "-20px");
             String starsSum = "";
             StringBuilder stringBuilder = new StringBuilder(starsSum);
-            for(int i = 0; i < hotel.getStars(); i++){
+            for (int i = 0; i < hotel.getStars(); i++) {
                 stringBuilder.append("★");
                 starsSum = stringBuilder.toString();
             }
@@ -54,13 +55,13 @@ public class HotelSearch {
             Button bookButton = new Button("BOOK");
             HorizontalLayout priceAndBookLayout = new HorizontalLayout(phone, price, bookButton);
             priceAndBookLayout.getStyle().set("margin-top", "50px");
-            hotelFormatting.add(name,  new HorizontalLayout(adress), new HorizontalLayout(stars, rating), priceAndBookLayout);
-            imageAndInfo.add(hotelImage ,hotelFormatting);
+            hotelFormatting.add(name, new HorizontalLayout(adress), new HorizontalLayout(stars, rating), priceAndBookLayout);
+            imageAndInfo.add(hotelImage, hotelFormatting);
             div.add(imageAndInfo);
-            verticalLayout.add(div);
+            result.add(div);
         }
 
-        return verticalLayout;
+        return result;
     }
 
 }

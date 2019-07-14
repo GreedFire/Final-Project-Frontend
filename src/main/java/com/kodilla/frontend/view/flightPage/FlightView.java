@@ -1,87 +1,97 @@
 package com.kodilla.frontend.view.flightPage;
 
-import com.kodilla.frontend.domain.dto.flight.flights.FlightReponseDto;
-import com.kodilla.frontend.domain.dto.hotel.HotelSetDto;
+import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 
 @Route
 public class FlightView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
 
+    private TextField fromSearchBox;
     private TextField whereSearchBox;
     private DatePicker whenSearchBox;
-    private DatePicker untilSearchBox;
-    private TextField fromSearchBox;
-    private Select<Integer> roomSearchBox;
-    private Select<Integer> adultSearchBox;
     private Button searchButton;
-    private LocalDate whenDate = LocalDate.now().plusDays(10);
-    private LocalDate untilDate = LocalDate.now().plusDays(20);
+    private Button historyButton;
     private VerticalLayout searchResultLayout = new VerticalLayout();
 
-    public FlightView(){
+    private LocalDate whenDate = LocalDate.now().plusDays(10);
+
+    public FlightView() {
         drawNavigateBar();
         drawSearchMenu();
+        add(searchResultLayout);
+
         searchButton.addClickListener(e -> {
-           // final FlightReponseDto response = restTemplate.getForObject(prepareQueryUrl(), HotelSetDto[].class);
-           // drawSearchResults(response);
+            final FlightDto response = restTemplate.getForObject(prepareQueryUrl(), FlightDto.class);
+            drawSearchResults(response);
         });
+
+        historyButton.addClickListener(e -> {
+            ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
+                    "http://localhost:8080/v1/flights/history", HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+                    });
+
+            //for now just first element because i need to change all request to List and change method param to List or
+            // write new method with list param
+            drawSearchResults(response.getBody().get(0));
+
+        });
+    }
+
+    private void drawSearchResults(FlightDto response) {
+        searchResultLayout.removeAll();
+        searchResultLayout.add(FlightSearch.drawFlightResults(response));
 
     }
 
-    private void drawNavigateBar(){
+    private URI prepareQueryUrl() {
+        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/flights")
+                .queryParam("originPlace", fromSearchBox.getValue())
+                .queryParam("destinationPlace", whereSearchBox.getValue())
+                .queryParam("outboundPartialDate", whenDate)
+                .build().encode().toUri();
+    }
+
+    private void drawNavigateBar() {
         VerticalLayout menu = NavigateBar.drawNavigateBar();
         add(menu);
     }
 
-    private void drawSearchMenu(){
+    private void drawSearchMenu() {
         HorizontalLayout searchLayout = new HorizontalLayout();
         whereSearchBox = new TextField("Where you want to go?");
         whenSearchBox = new DatePicker("When?");
-        untilSearchBox = new DatePicker("Until when?");
-        whenSearchBox.setPlaceholder(whenDate.toString());
-        untilSearchBox.setPlaceholder(untilDate.toString());
         fromSearchBox = new TextField("From where?");
-        roomSearchBox = new Select<>();
-        roomSearchBox.setLabel("Rooms");
-        roomSearchBox.setItems(1, 2);
-        roomSearchBox.setValue(1);
-        roomSearchBox.getStyle().set("width", "70px");
-        adultSearchBox = new Select<>();
-        adultSearchBox.setLabel("Adults");
-        adultSearchBox.setItems(1, 2, 3, 4);
-        adultSearchBox.setValue(1);
-        adultSearchBox.getStyle().set("width", "70px");
         searchButton = new Button("Search");
         searchButton.getStyle().set("margin-top", "35px");
+        historyButton = new Button("search history");
+        historyButton.getStyle().set("margin-top", "35px");
+        searchLayout.add(fromSearchBox);
         searchLayout.add(whereSearchBox);
         searchLayout.add(whenSearchBox);
-        searchLayout.add(untilSearchBox);
-        searchLayout.add(fromSearchBox);
-        searchLayout.add(roomSearchBox);
-        searchLayout.add(adultSearchBox);
         searchLayout.add(searchButton);
+        searchLayout.add(historyButton);
         searchLayout.getStyle().set("margin", "auto");
 
         whenSearchBox.addValueChangeListener(event -> {
             whenDate = event.getValue();
-        });
-
-        untilSearchBox.addValueChangeListener(event -> {
-            untilDate = event.getValue();
         });
 
         add(searchLayout);

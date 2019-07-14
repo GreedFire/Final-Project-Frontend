@@ -1,7 +1,8 @@
 package com.kodilla.frontend.view;
 
 import com.kodilla.frontend.view.flightPage.FlightView;
-import com.kodilla.frontend.view.hotelPage.MainView;
+import com.kodilla.frontend.view.holidayPage.MainView;
+import com.kodilla.frontend.view.hotelPage.HotelView;
 import com.kodilla.frontend.view.readmePage.ReadMeView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -11,7 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 
 public class NavigateBar {
-    public static VerticalLayout drawNavigateBar(){
+    public static VerticalLayout drawNavigateBar() {
         VerticalLayout verticalLayout = new VerticalLayout();
         Image title = new Image("https://i.ibb.co/GsCH9Zp/title.png", "");
         title.getStyle().set("margin", "auto");
@@ -27,7 +28,7 @@ public class NavigateBar {
         });
 
         menuButton2.addClickListener(e -> {
-            UI.getCurrent().navigate(MainView.class);
+            UI.getCurrent().navigate(HotelView.class);
         });
 
         menuButton3.addClickListener(e -> {

@@ -1,17 +1,28 @@
-package com.kodilla.frontend.domain.dto.flight.flights.lists;
+package com.kodilla.frontend.domain.dto.flight;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FlightCarriersDto {
 
-    @JsonProperty("Name")
+    private long id;
+
+    private int carrierId;
+
     private String carrierName;
+
+    private BigDecimal price;
+
+    private LocalDateTime departureDate;
+
+
 }
