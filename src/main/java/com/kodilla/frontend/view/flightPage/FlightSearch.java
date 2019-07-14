@@ -37,19 +37,21 @@ public class FlightSearch {
             carrierDiv.getStyle().set("border-width", "2px");
             carrierDiv.getStyle().set("border-width", "2px");
 
-            Label carrierId = new Label(String.valueOf("Carrier ID: " + carrier.getCarrierId()));
+            Label carrierId = new Label("Carrier ID: " + carrier.getCarrierId());
             Label carrierName = new Label("Carrier name: " + carrier.getCarrierName());
+            Label carrierClass = new Label("Class: " + carrier.getCarrierClass());
             Label carrierDate = new Label("Departure: " + carrier.getDepartureDate().format(formatter));
-            Label carrierPrice = new Label(String.valueOf(carrier.getPrice() + "$"));
+            Label carrierPrice = new Label(carrier.getPrice() + "$");
             carrierPrice.getStyle().set("font-size", "30px");
             carrierPrice.getStyle().set("font-weight", "bold");
             carrierDate.getStyle().set("font-size", "20px");
             carrierDate.getStyle().set("font-weight", "bold");
+            carrierClass.getStyle().set("font-weight", "bold");
             carrierName.getStyle().set("font-weight", "bold");
             carrierId.getStyle().set("font-weight", "bold");
             HorizontalLayout idAndNameLayout = new HorizontalLayout(carrierId, carrierName);
             HorizontalLayout priceAndBook = new HorizontalLayout(carrierPrice, bookButton);
-            VerticalLayout carrierLayout = new VerticalLayout(idAndNameLayout, carrierDate, priceAndBook);
+            VerticalLayout carrierLayout = new VerticalLayout(idAndNameLayout, carrierClass, carrierDate, priceAndBook);
             carrierDiv.add(carrierLayout);
             resultDiv.add(carrierDiv);
         }

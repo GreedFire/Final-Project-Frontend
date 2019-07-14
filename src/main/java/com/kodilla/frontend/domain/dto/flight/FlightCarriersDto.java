@@ -24,5 +24,7 @@ public class FlightCarriersDto {
 
     private LocalDateTime departureDate;
 
+    private String carrierClass;
+
 
 }
