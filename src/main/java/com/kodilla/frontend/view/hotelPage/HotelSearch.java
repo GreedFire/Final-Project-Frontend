@@ -17,6 +17,7 @@ public class HotelSearch {
         if(marginAuto)
              result.getStyle().set("margin", "auto");
         for (HotelListDto hotel : response) {
+
             Div div = new Div();
             div.getStyle().set("margin-bottom", "5px");
             div.getStyle().set("margin", "auto");
@@ -47,7 +48,7 @@ public class HotelSearch {
             Label phone = new Label("Phone: " + hotel.getPhone());
             phone.getStyle().set("padding-right", "2px");
             phone.getStyle().set("margin-top", "20px");
-            Label price = new Label(Integer.parseInt(hotel.getPrice()) + "$");
+            Label price = new Label((int) Double.parseDouble(hotel.getPrice()) + "$");
             price.getStyle().set("padding-right", "2px");
             price.getStyle().set("font-size", "30px");
             price.getStyle().set("font-weight", "bold");

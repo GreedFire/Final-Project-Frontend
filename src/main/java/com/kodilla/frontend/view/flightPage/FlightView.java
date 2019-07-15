@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view.flightPage;
 
+import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -13,7 +14,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -39,13 +39,14 @@ public class FlightView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
-            final FlightDto response = restTemplate.getForObject(prepareQueryUrl(), FlightDto.class);
+            URI url = UrlGenerator.flightsSearchURL(fromSearchBox.getValue(), whereSearchBox.getValue(), whenDate);
+            final FlightDto response = restTemplate.getForObject(url, FlightDto.class);
             drawSearchResults(response);
         });
 
         historyButton.addClickListener(e -> {
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
-                    "http://localhost:8080/v1/flights/history", HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+                    UrlGenerator.FLIGHTHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
 
             //for now just first element because i need to change all request to List and change method param to List or
@@ -56,18 +57,12 @@ public class FlightView extends VerticalLayout {
     }
 
     private void drawSearchResults(FlightDto response) {
+
         searchResultLayout.removeAll();
         searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
 
     }
 
-    private URI prepareQueryUrl() {
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/flights")
-                .queryParam("originPlace", fromSearchBox.getValue())
-                .queryParam("destinationPlace", whereSearchBox.getValue())
-                .queryParam("outboundPartialDate", whenDate)
-                .build().encode().toUri();
-    }
 
     private void drawNavigateBar() {
         VerticalLayout menu = NavigateBar.drawNavigateBar();

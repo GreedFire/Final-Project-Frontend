@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 public class FlightSearch {
     public static Div drawFlightResults(FlightDto response, boolean marginAuto) {
         Div resultDiv = new Div();
-        if(marginAuto)
-             resultDiv.getStyle().set("margin", "auto");
+        if (marginAuto)
+            resultDiv.getStyle().set("margin", "auto");
         Label origin = new Label(response.getOrigin());
         Label to = new Label("to");
         Label destination = new Label(response.getDestination());

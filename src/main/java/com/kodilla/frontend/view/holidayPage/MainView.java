@@ -1,11 +1,8 @@
 package com.kodilla.frontend.view.holidayPage;
 
-import com.kodilla.frontend.domain.dto.flight.FlightDto;
+import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.holiday.HolidayDto;
-import com.kodilla.frontend.domain.dto.hotel.HotelDto;
-import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
-import com.kodilla.frontend.view.hotelPage.HotelSearch;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -14,15 +11,10 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 
 @Route
 public class MainView extends VerticalLayout {
@@ -48,7 +40,9 @@ public class MainView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
-            final HolidayDto response = restTemplate.getForObject(prepareQueryUrl(), HolidayDto.class);
+            URI url = UrlGenerator.holidaySearchURL(roomSearchBox.getValue(), fromSearchBox.getValue(),
+                    whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
+            final HolidayDto response = restTemplate.getForObject(url, HolidayDto.class);
             drawSearchResults(response);
 
         });
@@ -66,17 +60,6 @@ public class MainView extends VerticalLayout {
     private void drawSearchResults(HolidayDto response) {
         searchResultLayout.removeAll();
         searchResultLayout.add(HolidaySearch.drawHolidayResults(response));
-    }
-
-    private URI prepareQueryUrl() {
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/holiday")
-                .queryParam("rooms", roomSearchBox.getValue())
-                .queryParam("originPlace", fromSearchBox.getValue())
-                .queryParam("destinationPlace", whereSearchBox.getValue())
-                .queryParam("checkin", whenDate)
-                .queryParam("checkout", untilDate)
-                .queryParam("adults", adultSearchBox.getValue())
-                .build().encode().toUri();
     }
 
 

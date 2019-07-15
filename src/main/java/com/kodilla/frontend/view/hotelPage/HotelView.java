@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view.hotelPage;
 
+import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -42,10 +42,9 @@ public class HotelView extends VerticalLayout {
     private Select<Integer> stars;
     private TextField priceMoreThan;
     private TextField priceLessThan;
-    private Button filterButton = new Button("Filter");;
+    private Button filterButton = new Button("Filter");
 
     private String SEARCHID;
-
     private List<HotelListDto> response;
 
 
@@ -56,48 +55,51 @@ public class HotelView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
+            URI preparedUrlForHotelSearch = UrlGenerator.hotelsSearchURL(roomSearchBox.getValue(),
+                    whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
             response = restTemplate.exchange(
-                    prepareQueryUrl(), HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+                    preparedUrlForHotelSearch, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
 
-            if (response != null) {
+            if (response != null)
                 SEARCHID = response.get(0).getHotelResponseId();
-                drawSearchResults(response);
-                System.out.println(response.size());
-            } else {
-                Notification.show("SOMETHING WENT WRONG! TRY AGAIN!", 3, Notification.Position.MIDDLE);
-            }
+            drawSearchResults(response);
         });
 
         historyButton.addClickListener(x -> {
             response = restTemplate.exchange(
-                    "http://localhost:8080/v1/hotels/history", HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+                    UrlGenerator.HOTELHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
             drawSearchResults(response);
         });
 
         filterButton.addClickListener(f -> {
+            URI preparedUrlForFilteredHotels = UrlGenerator.filterHotelsURL(SEARCHID, rating.getValue(),
+                    stars.getValue(), Integer.parseInt(priceMoreThan.getValue()),
+                    Integer.parseInt(priceLessThan.getValue()));
+
             response = restTemplate.exchange(
-                    prepareUrlForFilteredHotels(), HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+                    preparedUrlForFilteredHotels, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
-
-            System.out.println(response.size());
             drawSearchResults(response);
-
         });
     }
 
-    //WYSWIETL DANE, POUKLADAJ TO W FRONT ENDZIE, ZRÓB TO SAMO DLA LOTÓW
-
-    private URI prepareUrlForFilteredHotels() {
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels/filter")
-                .queryParam("responseId", SEARCHID)
-                .queryParam("rating", rating.getValue())
-                .queryParam("stars", stars.getValue())
-                .queryParam("priceMore", Integer.parseInt(priceMoreThan.getValue()))
-                .queryParam("priceLess",  Integer.parseInt(priceLessThan.getValue()))
-                .build().encode().toUri();
+    private void drawSearchResults(List<HotelListDto> response) {
+        if (response != null) {
+            searchResultLayout.removeAll();
+            searchResultLayout.add(HotelSearch.drawHotelResults(response, true));
+        } else {
+            Notification.show("SOMETHING WENT WRONG! TRY AGAIN!", 3, Notification.Position.MIDDLE);
+        }
     }
+
+
+    private void drawNavigateBar() {
+        VerticalLayout menu = NavigateBar.drawNavigateBar();
+        add(menu);
+    }
+
 
     public void drawHotelFilters() {
         Div filterNavi = new Div();
@@ -121,28 +123,6 @@ public class HotelView extends VerticalLayout {
         add(filterNavi);
     }
 
-
-
-    private void drawSearchResults(List<HotelListDto> response) {
-        searchResultLayout.removeAll();
-        searchResultLayout.add(HotelSearch.drawHotelResults(response, true));
-
-    }
-
-    private URI prepareQueryUrl() {
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels")
-                .queryParam("rooms", roomSearchBox.getValue())
-                .queryParam("location", whereSearchBox.getValue())
-                .queryParam("checkin", whenDate)
-                .queryParam("checkout", untilDate)
-                .queryParam("adults", adultSearchBox.getValue())
-                .build().encode().toUri();
-    }
-
-    private void drawNavigateBar() {
-        VerticalLayout menu = NavigateBar.drawNavigateBar();
-        add(menu);
-    }
 
     private void drawSearchMenu() {
         HorizontalLayout searchLayout = new HorizontalLayout();
