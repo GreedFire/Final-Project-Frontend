@@ -41,7 +41,7 @@ public class FlightSearch {
             Label carrierName = new Label("Carrier name: " + carrier.getCarrierName());
             Label carrierClass = new Label("Class: " + carrier.getCarrierClass());
             Label carrierDate = new Label("Departure: " + carrier.getDepartureDate().format(formatter));
-            Label carrierPrice = new Label(carrier.getPrice() + "$");
+            Label carrierPrice = new Label(carrier.getPrice().intValueExact() + "$");
             carrierPrice.getStyle().set("font-size", "30px");
             carrierPrice.getStyle().set("font-weight", "bold");
             carrierDate.getStyle().set("font-size", "20px");

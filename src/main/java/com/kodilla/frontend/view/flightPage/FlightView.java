@@ -1,6 +1,7 @@
 package com.kodilla.frontend.view.flightPage;
 
 import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.flight.FlightCarriersDto;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -41,6 +42,7 @@ public class FlightView extends VerticalLayout {
         searchButton.addClickListener(e -> {
             URI url = UrlGenerator.flightsSearchURL(fromSearchBox.getValue(), whereSearchBox.getValue(), whenDate);
             final FlightDto response = restTemplate.getForObject(url, FlightDto.class);
+
             drawSearchResults(response);
         });
 
