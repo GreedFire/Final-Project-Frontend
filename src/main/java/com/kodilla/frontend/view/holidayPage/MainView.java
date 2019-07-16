@@ -86,10 +86,10 @@ public class MainView extends VerticalLayout {
         adultSearchBox.setItems(1, 2, 3, 4);
         adultSearchBox.setValue(1);
         adultSearchBox.getStyle().set("width", "70px");
-        searchButton = new Button("Search");
-        searchButton.getStyle().set("margin-top", "35px");
-        historyButton = new Button("search history");
-        historyButton.getStyle().set("margin-top", "35px");
+        searchButton = new Button("SEARCH");
+        searchButton.getStyle().set("margin-top", "37px");
+        historyButton = new Button("SEARCH HISTORY");
+        historyButton.getStyle().set("margin-top", "37px");
         searchLayout.add(fromSearchBox);
         searchLayout.add(whereSearchBox);
         searchLayout.add(whenSearchBox);

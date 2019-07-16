@@ -46,7 +46,6 @@ public class HotelView extends VerticalLayout {
     private Button filterButton = new Button("Filter");
 
     private String SEARCHID;
-    private List<HotelListDto> response;
 
 
     public HotelView() {
@@ -58,7 +57,7 @@ public class HotelView extends VerticalLayout {
         searchButton.addClickListener(e -> {
             URI preparedUrlForHotelSearch = UrlGenerator.hotelsSearchURL(roomSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
-            response = restTemplate.exchange(
+            List<HotelListDto> response = restTemplate.exchange(
                     preparedUrlForHotelSearch, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
 
@@ -68,19 +67,19 @@ public class HotelView extends VerticalLayout {
             drawSearchResults(response);
         });
 
-        historyButton.addClickListener(x -> {
-            response = restTemplate.exchange(
+        historyButton.addClickListener(e -> {
+            List<HotelListDto> response = restTemplate.exchange(
                     UrlGenerator.HOTELHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
             drawSearchResults(response);
         });
 
-        filterButton.addClickListener(f -> {
+        filterButton.addClickListener(e -> {
             URI preparedUrlForFilteredHotels = UrlGenerator.filterHotelsURL(SEARCHID, rating.getValue(),
                     stars.getValue(), Integer.parseInt(priceMoreThan.getValue()),
                     Integer.parseInt(priceLessThan.getValue()));
 
-            response = restTemplate.exchange(
+            List<HotelListDto> response = restTemplate.exchange(
                     preparedUrlForFilteredHotels, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
             drawSearchResults(response);
@@ -116,10 +115,10 @@ public class HotelView extends VerticalLayout {
         stars.setItems(1, 2, 3, 4, 5);
         stars.setValue(4);
         priceMoreThan = new TextField("Price (more than): ");
-        priceMoreThan.setValue("80");
+        priceMoreThan.setValue("0");
         priceLessThan = new TextField("Price (less than): ");
-        priceLessThan.setValue("200");
-        filterButton.getStyle().set("margin-top", "35px");
+        priceLessThan.setValue("20000");
+        filterButton.getStyle().set("margin-top", "37px");
         filterLayout.add(rating, stars, priceMoreThan, priceLessThan, filterButton);
         filterNavi.add(filterLayout);
         filterNavi.getStyle().set("margin", "auto");
@@ -144,10 +143,10 @@ public class HotelView extends VerticalLayout {
         adultSearchBox.setItems(1, 2, 3, 4);
         adultSearchBox.setValue(1);
         adultSearchBox.getStyle().set("width", "70px");
-        searchButton = new Button("Search");
-        searchButton.getStyle().set("margin-top", "35px");
-        historyButton = new Button("search history");
-        historyButton.getStyle().set("margin-top", "35px");
+        searchButton = new Button("SEARCH");
+        searchButton.getStyle().set("margin-top", "37px");
+        historyButton = new Button("SEARCH HISTORY");
+        historyButton.getStyle().set("margin-top", "37px");
         searchLayout.add(whereSearchBox);
         searchLayout.add(whenSearchBox);
         searchLayout.add(untilSearchBox);

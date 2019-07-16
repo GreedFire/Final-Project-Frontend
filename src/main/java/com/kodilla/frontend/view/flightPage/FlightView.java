@@ -6,8 +6,10 @@ import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Route
@@ -32,12 +33,20 @@ public class FlightView extends VerticalLayout {
     private Button searchButton;
     private Button historyButton;
     private VerticalLayout searchResultLayout = new VerticalLayout();
-
     private LocalDate whenDate = LocalDate.now().plusDays(10);
+
+    private Div filterNavi;
+    private Select<String> carrierClass;
+    private TextField priceMoreThan;
+    private TextField priceLessThan;
+    private Button filterButton = new Button("Filter");
+
+    private long SEARCHID;
 
     public FlightView() {
         drawNavigateBar();
         drawSearchMenu();
+        drawFlightFilters();
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
@@ -45,7 +54,10 @@ public class FlightView extends VerticalLayout {
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
                     url, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
-
+            if(response.getBody() != null && response.getBody().size() > 0){
+                SEARCHID = response.getBody().get(0).getId();
+            }
+            filterNavi.setVisible(true);
             drawSearchResults(response.getBody());
         });
 
@@ -58,6 +70,16 @@ public class FlightView extends VerticalLayout {
             // write new method with list param
             drawSearchResults(response.getBody());
 
+        });
+
+        filterButton.addClickListener(e -> {
+            URI url = UrlGenerator.filterFlightsURL(SEARCHID, carrierClass.getValue(),
+                    Integer.parseInt(priceMoreThan.getValue()), Integer.parseInt(priceLessThan.getValue()));
+            ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
+                    url, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+                    });
+
+            drawSearchResults(response.getBody());
         });
     }
 
@@ -79,10 +101,10 @@ public class FlightView extends VerticalLayout {
         whereSearchBox = new TextField("Where you want to go?");
         whenSearchBox = new DatePicker("When?");
         fromSearchBox = new TextField("From where?");
-        searchButton = new Button("Search");
-        searchButton.getStyle().set("margin-top", "35px");
-        historyButton = new Button("search history");
-        historyButton.getStyle().set("margin-top", "35px");
+        searchButton = new Button("SEARCH");
+        searchButton.getStyle().set("margin-top", "37px");
+        historyButton = new Button("SEARCH HISTORY");
+        historyButton.getStyle().set("margin-top", "37px");
         searchLayout.add(fromSearchBox);
         searchLayout.add(whereSearchBox);
         searchLayout.add(whenSearchBox);
@@ -95,5 +117,24 @@ public class FlightView extends VerticalLayout {
         });
 
         add(searchLayout);
+    }
+
+    public void drawFlightFilters() {
+        filterNavi = new Div();
+        filterNavi.setVisible(false);
+        HorizontalLayout filterLayout = new HorizontalLayout();
+        carrierClass = new Select<>();
+        carrierClass.setLabel("Carrier Class: ");
+        carrierClass.setItems("economic", "business", "first");
+        carrierClass.setValue("economic");
+        priceMoreThan = new TextField("Price (more than): ");
+        priceMoreThan.setValue("0");
+        priceLessThan = new TextField("Price (less than): ");
+        priceLessThan.setValue("20000");
+        filterButton.getStyle().set("margin-top", "37px");
+        filterLayout.add(carrierClass, priceMoreThan, priceLessThan, filterButton);
+        filterNavi.add(filterLayout);
+        filterNavi.getStyle().set("margin", "auto");
+        add(filterNavi);
     }
 }

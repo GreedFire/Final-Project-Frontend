@@ -6,7 +6,6 @@ import java.net.URI;
 import java.time.LocalDate;
 
 public class UrlGenerator {
-    // MAYBE LATER TAKE URLs FROM APPLICATON PROPERTIES
     public final static String HOTELHISTORYURL = "http://localhost:8080/v1/hotels/history";
     public final static String FLIGHTHISTORYURL = "http://localhost:8080/v1/flights/history";
 
@@ -20,13 +19,22 @@ public class UrlGenerator {
                 .build().encode().toUri();
     }
 
-    public static URI filterHotelsURL(String searchId, int rating, int stars, int priceMorethan, int priceLessThan) {
+    public static URI filterHotelsURL(String searchId, int rating, int stars, int priceMoreThan, int priceLessThan) {
         return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels/filter")
                 .queryParam("responseId", searchId)
                 .queryParam("rating", rating)
                 .queryParam("stars", stars)
-                .queryParam("priceMore", priceMorethan)
+                .queryParam("priceMore", priceMoreThan)
                 .queryParam("priceLess", priceLessThan)
+                .build().encode().toUri();
+    }
+
+    public static URI filterFlightsURL(long searchId, String carrierClass, int priceMoreThan, int priceLessThan){
+        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/flights/filter")
+                .queryParam("responseId", searchId)
+                .queryParam("carrierClass", carrierClass)
+                .queryParam("priceMoreThan", priceMoreThan)
+                .queryParam("priceLessThan", priceLessThan)
                 .build().encode().toUri();
     }
 
