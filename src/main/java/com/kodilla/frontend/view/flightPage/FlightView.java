@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Route
@@ -41,9 +42,11 @@ public class FlightView extends VerticalLayout {
 
         searchButton.addClickListener(e -> {
             URI url = UrlGenerator.flightsSearchURL(fromSearchBox.getValue(), whereSearchBox.getValue(), whenDate);
-            final FlightDto response = restTemplate.getForObject(url, FlightDto.class);
+            ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
+                    url, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+                    });
 
-            drawSearchResults(response);
+            drawSearchResults(response.getBody());
         });
 
         historyButton.addClickListener(e -> {
@@ -53,12 +56,12 @@ public class FlightView extends VerticalLayout {
 
             //for now just first element because i need to change all request to List and change method param to List or
             // write new method with list param
-            drawSearchResults(response.getBody().get(0));
+            drawSearchResults(response.getBody());
 
         });
     }
 
-    private void drawSearchResults(FlightDto response) {
+    private void drawSearchResults(List<FlightDto> response) {
 
         searchResultLayout.removeAll();
         searchResultLayout.add(FlightSearch.drawFlightResults(response, true));

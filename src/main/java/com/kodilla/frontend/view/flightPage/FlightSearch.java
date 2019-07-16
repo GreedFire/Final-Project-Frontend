@@ -9,15 +9,18 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class FlightSearch {
-    public static Div drawFlightResults(FlightDto response, boolean marginAuto) {
+    public static Div drawFlightResults(List<FlightDto> response, boolean marginAuto) {
         Div resultDiv = new Div();
+        for(FlightDto dto : response){
+
         if (marginAuto)
             resultDiv.getStyle().set("margin", "auto");
-        Label origin = new Label(response.getOrigin());
+        Label origin = new Label(dto.getOrigin());
         Label to = new Label("to");
-        Label destination = new Label(response.getDestination());
+        Label destination = new Label(dto.getDestination());
         HorizontalLayout originAndDestinationLayout = new HorizontalLayout(origin, to, destination);
         origin.getStyle().set("font-size", "20px");
         origin.getStyle().set("font-weight", "bold");
@@ -27,7 +30,7 @@ public class FlightSearch {
         resultDiv.add(originAndDestinationLayout);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        for (FlightCarriersDto carrier : response.getCarriers()) {
+        for (FlightCarriersDto carrier : dto.getCarriers()) {
             Div carrierDiv = new Div();
             Button bookButton = new Button("Book");
             carrierDiv.getStyle().set("margin-bottom", "5px");
@@ -55,7 +58,7 @@ public class FlightSearch {
             carrierDiv.add(carrierLayout);
             resultDiv.add(carrierDiv);
         }
-
+        }
 
         return resultDiv;
     }

@@ -16,6 +16,6 @@ import java.util.List;
 public class HolidayDto {
 
     private List<HotelListDto> hotels;
-    private FlightDto tripFlights;
-    private FlightDto returnFlight;
+    private List<FlightDto> tripFlights;
+    private List<FlightDto> returnFlight;
 }
