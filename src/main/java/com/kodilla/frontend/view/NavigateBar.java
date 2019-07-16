@@ -19,10 +19,10 @@ public class NavigateBar {
 
         HorizontalLayout menu = new HorizontalLayout();
         menu.setWidthFull();
-        Button menuButton1 = new Button("Holiday");
-        Button menuButton2 = new Button("Hotels");
-        Button menuButton3 = new Button("Flights");
-        Button menuButton4 = new Button("APP INFO");
+        Button menuButton1 = new Button("HOLIDAY");
+        Button menuButton2 = new Button("HOTELS");
+        Button menuButton3 = new Button("FLIGHTS");
+        Button menuButton4 = new Button(">>>APP INFO<<<");
 
         menuButton1.getStyle().set("background", "none");
         menuButton2.getStyle().set("background", "none");
