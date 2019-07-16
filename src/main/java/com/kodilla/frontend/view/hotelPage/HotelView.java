@@ -38,6 +38,7 @@ public class HotelView extends VerticalLayout {
     private Button searchButton;
     private Button historyButton;
 
+    private Div filterNavi;
     private Select<Integer> rating;
     private Select<Integer> stars;
     private TextField priceMoreThan;
@@ -63,6 +64,7 @@ public class HotelView extends VerticalLayout {
 
             if (response != null)
                 SEARCHID = response.get(0).getHotelResponseId();
+            filterNavi.setVisible(true);
             drawSearchResults(response);
         });
 
@@ -102,7 +104,8 @@ public class HotelView extends VerticalLayout {
 
 
     public void drawHotelFilters() {
-        Div filterNavi = new Div();
+        filterNavi = new Div();
+        filterNavi.setVisible(false);
         HorizontalLayout filterLayout = new HorizontalLayout();
         rating = new Select<>();
         rating.setLabel("Rating(at least): ");

@@ -14,14 +14,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 public class NavigateBar {
     public static VerticalLayout drawNavigateBar() {
         VerticalLayout verticalLayout = new VerticalLayout();
-        Image title = new Image("https://i.ibb.co/GsCH9Zp/title.png", "");
+        Image title = new Image("https://i.ibb.co/XZ8KLch/Untitled.png", "");
         title.getStyle().set("margin", "auto");
 
         HorizontalLayout menu = new HorizontalLayout();
+        menu.setWidthFull();
         Button menuButton1 = new Button("Holiday");
         Button menuButton2 = new Button("Hotels");
         Button menuButton3 = new Button("Flights");
-        Button menuButton4 = new Button("README");
+        Button menuButton4 = new Button("APP INFO");
+
+        menuButton1.getStyle().set("background", "none");
+        menuButton2.getStyle().set("background", "none");
+        menuButton3.getStyle().set("background", "none");
+        menuButton4.getStyle().set("background", "none");
 
         menuButton1.addClickListener(e -> {
             UI.getCurrent().navigate(MainView.class);
@@ -39,7 +45,7 @@ public class NavigateBar {
             UI.getCurrent().navigate(ReadMeView.class);
         });
 
-        menu.getStyle().set("background", "yellow");
+        menu.getStyle().set("background", "#e8ebef");
         menu.getStyle().set("margin", "auto");
         menu.add(menuButton1);
         menu.add(menuButton2);
