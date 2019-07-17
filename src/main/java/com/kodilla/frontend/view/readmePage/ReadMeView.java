@@ -8,8 +8,12 @@ import com.vaadin.flow.router.Route;
 @Route
 public class ReadMeView extends VerticalLayout {
 
+    private NavigateBar navigateBar = new NavigateBar();;
+
     public ReadMeView() {
-        VerticalLayout menu = NavigateBar.drawNavigateBar();
+        add(navigateBar.drawImage());
+        add(navigateBar.drawNavigateBar());
+
         Label info = new Label("INFORMATION ABOUT APP:");
         Label text = new Label();
         text.setText("Hey this app is my lastest project from Kodilla Course. " +
@@ -19,7 +23,6 @@ public class ReadMeView extends VerticalLayout {
 
         Label email = new Label("Here is contact with me: greedofiro@gmail.com");
 
-        add(menu);
         add(info);
         add(text);
         add(email);

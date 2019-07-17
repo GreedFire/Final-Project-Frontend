@@ -26,6 +26,7 @@ import java.util.List;
 public class FlightView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
+    private NavigateBar navigateBar = new NavigateBar();
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
@@ -44,7 +45,8 @@ public class FlightView extends VerticalLayout {
     private long SEARCHID;
 
     public FlightView() {
-        drawNavigateBar();
+        add(navigateBar.drawImage());
+        add(navigateBar.drawNavigateBar());
         drawSearchMenu();
         drawFlightFilters();
         add(searchResultLayout);
@@ -91,10 +93,7 @@ public class FlightView extends VerticalLayout {
     }
 
 
-    private void drawNavigateBar() {
-        VerticalLayout menu = NavigateBar.drawNavigateBar();
-        add(menu);
-    }
+
 
     private void drawSearchMenu() {
         HorizontalLayout searchLayout = new HorizontalLayout();

@@ -1,7 +1,7 @@
 package com.kodilla.frontend.view.holidayPage;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.holiday.HolidayDto;
+import com.kodilla.frontend.domain.dto.HolidayDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -22,6 +22,8 @@ public class MainView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
 
+    private NavigateBar navigateBar = new NavigateBar();
+
     private TextField fromSearchBox;
     private TextField whereSearchBox;
     private DatePicker whenSearchBox;
@@ -35,7 +37,9 @@ public class MainView extends VerticalLayout {
     private Button historyButton;
 
     public MainView() {
-        drawNavigateBar();
+        add(navigateBar.drawImage());
+        add(navigateBar.drawNavigateBar());
+
         drawSearchMenu();
         add(searchResultLayout);
 
@@ -60,12 +64,6 @@ public class MainView extends VerticalLayout {
     private void drawSearchResults(HolidayDto response) {
         searchResultLayout.removeAll();
         searchResultLayout.add(HolidaySearch.drawHolidayResults(response));
-    }
-
-
-    private void drawNavigateBar() {
-        VerticalLayout menu = NavigateBar.drawNavigateBar();
-        add(menu);
     }
 
     private void drawSearchMenu() {

@@ -27,6 +27,8 @@ public class HotelView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
 
+    private NavigateBar navigateBar = new NavigateBar();;
+
     private TextField whereSearchBox;
     private DatePicker whenSearchBox;
     private DatePicker untilSearchBox;
@@ -49,7 +51,8 @@ public class HotelView extends VerticalLayout {
 
 
     public HotelView() {
-        drawNavigateBar();
+        add(navigateBar.drawImage());
+        add(navigateBar.drawNavigateBar());
         drawSearchMenu();
         drawHotelFilters();
         add(searchResultLayout);
@@ -96,10 +99,7 @@ public class HotelView extends VerticalLayout {
     }
 
 
-    private void drawNavigateBar() {
-        VerticalLayout menu = NavigateBar.drawNavigateBar();
-        add(menu);
-    }
+
 
 
     public void drawHotelFilters() {

@@ -1,6 +1,6 @@
 package com.kodilla.frontend.view.holidayPage;
 
-import com.kodilla.frontend.domain.dto.holiday.HolidayDto;
+import com.kodilla.frontend.domain.dto.HolidayDto;
 import com.kodilla.frontend.view.flightPage.FlightSearch;
 import com.kodilla.frontend.view.hotelPage.HotelSearch;
 import com.vaadin.flow.component.html.Div;

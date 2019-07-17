@@ -1,4 +1,4 @@
-package com.kodilla.frontend.domain.dto.holiday;
+package com.kodilla.frontend.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
