@@ -1,7 +1,6 @@
 package com.kodilla.frontend.view.flightPage;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.flight.FlightCarriersDto;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -56,7 +55,7 @@ public class FlightView extends VerticalLayout {
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
                     url, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
-            if(response.getBody() != null && response.getBody().size() > 0){
+            if (response.getBody() != null && response.getBody().size() > 0) {
                 SEARCHID = response.getBody().get(0).getId();
             }
             filterNavi.setVisible(true);
@@ -86,41 +85,34 @@ public class FlightView extends VerticalLayout {
     }
 
     private void drawSearchResults(List<FlightDto> response) {
-
         searchResultLayout.removeAll();
         searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
-
     }
 
-
-
-
     private void drawSearchMenu() {
+        //COMPONENTS
         HorizontalLayout searchLayout = new HorizontalLayout();
         whereSearchBox = new TextField("Where you want to go?");
         whenSearchBox = new DatePicker("When?");
         fromSearchBox = new TextField("From where?");
         searchButton = new Button("SEARCH");
-        searchButton.getStyle().set("margin-top", "37px");
         historyButton = new Button("SEARCH HISTORY");
+        //CSS
+        searchButton.getStyle().set("margin-top", "37px");
         historyButton.getStyle().set("margin-top", "37px");
-        searchLayout.add(fromSearchBox);
-        searchLayout.add(whereSearchBox);
-        searchLayout.add(whenSearchBox);
-        searchLayout.add(searchButton);
-        searchLayout.add(historyButton);
         searchLayout.getStyle().set("margin", "auto");
+
+        searchLayout.add(fromSearchBox, whereSearchBox, whenSearchBox, searchButton, historyButton);
+        add(searchLayout);
 
         whenSearchBox.addValueChangeListener(event -> {
             whenDate = event.getValue();
         });
-
-        add(searchLayout);
     }
 
     public void drawFlightFilters() {
+        //COMPONENTS
         filterNavi = new Div();
-        filterNavi.setVisible(false);
         HorizontalLayout filterLayout = new HorizontalLayout();
         carrierClass = new Select<>();
         carrierClass.setLabel("Carrier Class: ");
@@ -130,10 +122,13 @@ public class FlightView extends VerticalLayout {
         priceMoreThan.setValue("0");
         priceLessThan = new TextField("Price (less than): ");
         priceLessThan.setValue("20000");
+        //CSS
+        filterNavi.setVisible(false);
         filterButton.getStyle().set("margin-top", "37px");
-        filterLayout.add(carrierClass, priceMoreThan, priceLessThan, filterButton);
-        filterNavi.add(filterLayout);
         filterNavi.getStyle().set("margin", "auto");
+
+        filterNavi.add(filterLayout);
+        filterLayout.add(carrierClass, priceMoreThan, priceLessThan, filterButton);
         add(filterNavi);
     }
 }

@@ -27,7 +27,8 @@ public class HotelView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
 
-    private NavigateBar navigateBar = new NavigateBar();;
+    private NavigateBar navigateBar = new NavigateBar();
+    ;
 
     private TextField whereSearchBox;
     private DatePicker whenSearchBox;
@@ -99,10 +100,8 @@ public class HotelView extends VerticalLayout {
     }
 
 
-
-
-
     public void drawHotelFilters() {
+        //COMPONENTS
         filterNavi = new Div();
         filterNavi.setVisible(false);
         HorizontalLayout filterLayout = new HorizontalLayout();
@@ -118,15 +117,18 @@ public class HotelView extends VerticalLayout {
         priceMoreThan.setValue("0");
         priceLessThan = new TextField("Price (less than): ");
         priceLessThan.setValue("20000");
+        //CSS
         filterButton.getStyle().set("margin-top", "37px");
-        filterLayout.add(rating, stars, priceMoreThan, priceLessThan, filterButton);
-        filterNavi.add(filterLayout);
         filterNavi.getStyle().set("margin", "auto");
+        filterNavi.add(filterLayout);
+
+        filterLayout.add(rating, stars, priceMoreThan, priceLessThan, filterButton);
         add(filterNavi);
     }
 
 
     private void drawSearchMenu() {
+        //COMPONENTS
         HorizontalLayout searchLayout = new HorizontalLayout();
         whereSearchBox = new TextField("Where you want to go?");
         whenSearchBox = new DatePicker("When?");
@@ -137,24 +139,21 @@ public class HotelView extends VerticalLayout {
         roomSearchBox.setLabel("Rooms");
         roomSearchBox.setItems(1, 2);
         roomSearchBox.setValue(1);
-        roomSearchBox.getStyle().set("width", "70px");
         adultSearchBox = new Select<>();
         adultSearchBox.setLabel("Adults");
         adultSearchBox.setItems(1, 2, 3, 4);
         adultSearchBox.setValue(1);
-        adultSearchBox.getStyle().set("width", "70px");
         searchButton = new Button("SEARCH");
-        searchButton.getStyle().set("margin-top", "37px");
         historyButton = new Button("SEARCH HISTORY");
+        //CSS
+        roomSearchBox.getStyle().set("width", "70px");
+        adultSearchBox.getStyle().set("width", "70px");
+        searchButton.getStyle().set("margin-top", "37px");
         historyButton.getStyle().set("margin-top", "37px");
-        searchLayout.add(whereSearchBox);
-        searchLayout.add(whenSearchBox);
-        searchLayout.add(untilSearchBox);
-        searchLayout.add(roomSearchBox);
-        searchLayout.add(adultSearchBox);
-        searchLayout.add(searchButton);
-        searchLayout.add(historyButton);
         searchLayout.getStyle().set("margin", "auto");
+
+        searchLayout.add(whereSearchBox, whenSearchBox, untilSearchBox, roomSearchBox, adultSearchBox, searchButton, historyButton);
+        add(searchLayout);
 
         whenSearchBox.addValueChangeListener(event -> {
             whenDate = event.getValue();
@@ -163,7 +162,7 @@ public class HotelView extends VerticalLayout {
         untilSearchBox.addValueChangeListener(event -> {
             untilDate = event.getValue();
         });
-        add(searchLayout);
+
     }
 
 
