@@ -57,7 +57,6 @@ public class MainView extends VerticalLayout {
 //
 //            drawSearchResults(response.getBody());
         });
-
     }
 
     private void drawSearchResults(HolidayDto response) {
