@@ -10,10 +10,8 @@ import com.vaadin.flow.router.Route;
 @Route
 public class AccountView extends VerticalLayout {
     public AccountView() {
-        NavigateBar navigateBar = new NavigateBar();
-        add(navigateBar.drawImage());
-        add(navigateBar.drawNavigateBar());
-
+        add(NavigateBar.drawImage());
+        add(NavigateBar.drawNavigateBar());
         drawPasswordChangeSettings();
         drawDeleteAccountSettings();
     }

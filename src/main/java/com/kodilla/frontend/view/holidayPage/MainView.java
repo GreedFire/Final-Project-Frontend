@@ -22,8 +22,6 @@ public class MainView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
 
-    private NavigateBar navigateBar = new NavigateBar();
-
     private TextField fromSearchBox;
     private TextField whereSearchBox;
     private DatePicker whenSearchBox;
@@ -37,8 +35,8 @@ public class MainView extends VerticalLayout {
     private Button historyButton;
 
     public MainView() {
-        add(navigateBar.drawImage());
-        add(navigateBar.drawNavigateBar());
+        add(NavigateBar.drawImage());
+        add(NavigateBar.drawNavigateBar());
         drawSearchMenu();
         add(searchResultLayout);
 

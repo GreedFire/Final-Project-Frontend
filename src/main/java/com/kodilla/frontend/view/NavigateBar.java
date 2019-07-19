@@ -1,6 +1,8 @@
 package com.kodilla.frontend.view;
 
+import com.kodilla.frontend.domain.dto.UserAccount;
 import com.kodilla.frontend.view.account.AccountView;
+import com.kodilla.frontend.view.account.SignInView;
 import com.kodilla.frontend.view.account.SignUpView;
 import com.kodilla.frontend.view.flightPage.FlightView;
 import com.kodilla.frontend.view.holidayPage.MainView;
@@ -9,24 +11,25 @@ import com.kodilla.frontend.view.readmePage.ReadMeView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.login.AbstractLogin;
-import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 
+
+@Data
 public class NavigateBar extends HorizontalLayout{
 
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    private Button signIn;
-    private Button signUp;
-    private Button account;
-    private LoginOverlay loginOverlay;
+    private static Button signIn = new Button("SIGN IN");
+    private static Button signUp = new Button("SIGN UP");
+    private static Button account = new Button("ACCOUNT");
+    private static Button signOut = new Button("SIGN OUT");
 
-    public HorizontalLayout drawImage(){
+    public static HorizontalLayout drawImage(){
         HorizontalLayout logoLayout = new HorizontalLayout();
         Image logo = new Image("https://i.ibb.co/XZ8KLch/Untitled.png", "logo");
         Image leftPalm = new Image("https://i.ibb.co/gtsdn3p/palm-left.png", "left-lalm");
@@ -37,7 +40,7 @@ public class NavigateBar extends HorizontalLayout{
         return logoLayout;
     }
 
-    public HorizontalLayout drawNavigateBar() {
+    public static HorizontalLayout drawNavigateBar() {
         //COMPONENTS
         HorizontalLayout menu = new HorizontalLayout();
         menu.setWidthFull();
@@ -45,9 +48,6 @@ public class NavigateBar extends HorizontalLayout{
         Button menuButton2 = new Button("HOTELS");
         Button menuButton3 = new Button("FLIGHTS");
         Button menuButton4 = new Button(">>>APP INFO<<<");
-        signIn = new Button("SIGN IN");
-        signUp = new Button("SIGN UP");
-        account = new Button("ACCOUNT");
 
         //CSS
         menuButton1.getStyle().set("background", "none");
@@ -57,7 +57,9 @@ public class NavigateBar extends HorizontalLayout{
         signIn.getStyle().set("background", "none");
         signUp.getStyle().set("background", "none");
         account.getStyle().set("background", "none");
-        signIn.getStyle().set("margin-left", "auto");
+        signOut.getStyle().set("background", "none");
+        menuButton4.getStyle().set("margin-right", "auto");
+        signOut.setVisible(false);
         menu.getStyle().set("background", "#e8ebef");
         menu.getStyle().set("margin", "auto");
 
@@ -76,10 +78,11 @@ public class NavigateBar extends HorizontalLayout{
 
         menuButton4.addClickListener(e -> {
             UI.getCurrent().navigate(ReadMeView.class);
+
         });
 
         signIn.addClickListener(e -> {
-            loginOverlay.setOpened(true);
+            UI.getCurrent().navigate(SignInView.class);
         });
 
         signUp.addClickListener(e -> {
@@ -90,26 +93,27 @@ public class NavigateBar extends HorizontalLayout{
             UI.getCurrent().navigate(AccountView.class);
         });
 
-        menu.add(menuButton1, menuButton2, menuButton3, menuButton4, signIn, signUp, account);
-        drawLoginOverlay();
+        signOut.addClickListener(e -> {
+            UserAccount.getInstance().signOut();
+        });
+
+        menu.add(menuButton1, menuButton2, menuButton3, menuButton4, signOut ,signIn, signUp, account);
         return menu;
     }
 
-    private void drawLoginOverlay(){
-        loginOverlay = new LoginOverlay();
-        loginOverlay.setTitle("Travel App");
-        loginOverlay.setDescription("");
-        loginOverlay.addLoginListener(e ->{
-            boolean isAuthenticated = authenticate(e);
-            if (isAuthenticated) {
-                loginOverlay.setOpened(false);
-            } else {
-                loginOverlay.setError(true);
-            }
-        });
+    public static Button getSignIn() {
+        return signIn;
     }
 
-    public boolean authenticate(AbstractLogin.LoginEvent loginEvent){
-        return true; //HERE CHANGE
+    public static Button getSignUp() {
+        return signUp;
+    }
+
+    public static Button getAccount() {
+        return account;
+    }
+
+    public static Button getSignOut() {
+        return signOut;
     }
 }

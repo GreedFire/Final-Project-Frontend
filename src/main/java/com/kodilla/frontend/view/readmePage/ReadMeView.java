@@ -8,12 +8,9 @@ import com.vaadin.flow.router.Route;
 @Route
 public class ReadMeView extends VerticalLayout {
 
-    private NavigateBar navigateBar = new NavigateBar();
-    ;
-
     public ReadMeView() {
-        add(navigateBar.drawImage());
-        add(navigateBar.drawNavigateBar());
+        add(NavigateBar.drawImage());
+        add(NavigateBar.drawNavigateBar());
 
         Label info = new Label("INFORMATION ABOUT APP:");
         Label text = new Label();

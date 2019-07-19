@@ -1,6 +1,7 @@
 package com.kodilla.frontend.view.flightPage;
 
 import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.UserIdDto;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -25,7 +26,6 @@ import java.util.List;
 public class FlightView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
-    private NavigateBar navigateBar = new NavigateBar();
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
@@ -44,8 +44,8 @@ public class FlightView extends VerticalLayout {
     private long SEARCHID;
 
     public FlightView() {
-        add(navigateBar.drawImage());
-        add(navigateBar.drawNavigateBar());
+        add(NavigateBar.drawImage());
+        add(NavigateBar.drawNavigateBar());
         drawSearchMenu();
         drawFlightFilters();
         add(searchResultLayout);
@@ -63,13 +63,14 @@ public class FlightView extends VerticalLayout {
         });
 
         historyButton.addClickListener(e -> {
-            ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
-                    UrlGenerator.FLIGHTHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+           ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
+                   UrlGenerator.FLIGHTHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
 
-            //for now just first element because i need to change all request to List and change method param to List or
-            // write new method with list param
+           //for now just first element because i need to change all request to List and change method param to List or
+           // write new method with list param
             drawSearchResults(response.getBody());
+
 
         });
 
@@ -82,6 +83,8 @@ public class FlightView extends VerticalLayout {
 
             drawSearchResults(response.getBody());
         });
+
+
     }
 
     private void drawSearchResults(List<FlightDto> response) {
