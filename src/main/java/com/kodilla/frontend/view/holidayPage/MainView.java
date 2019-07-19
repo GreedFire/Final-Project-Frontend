@@ -12,6 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
+import sun.plugin.javascript.navig.Navigator;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -21,6 +22,8 @@ public class MainView extends VerticalLayout {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private NavigateBar navigateBar = new NavigateBar();
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
@@ -34,9 +37,11 @@ public class MainView extends VerticalLayout {
     private Button searchButton;
     private Button historyButton;
 
-    public MainView() {
+    public MainView( ) {
+        add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
+
         drawSearchMenu();
         add(searchResultLayout);
 

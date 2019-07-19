@@ -43,6 +43,8 @@ public class FlightView extends VerticalLayout {
     private long SEARCHID;
 
     public FlightView() {
+        NavigateBar navigateBar = new NavigateBar();
+        add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSearchMenu();

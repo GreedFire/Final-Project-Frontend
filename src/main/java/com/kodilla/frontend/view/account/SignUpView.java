@@ -33,6 +33,8 @@ public class SignUpView extends VerticalLayout {
     private RestTemplate restTemplate;
 
     public SignUpView() {
+        NavigateBar navigateBar = new NavigateBar();
+        add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
 

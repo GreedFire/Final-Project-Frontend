@@ -40,9 +40,7 @@ public final class UserAccount {
                 .build().encode().toUri();
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(url,null);
-        NavigateBar.showSignOutButton();
-        NavigateBar.hideSignInButton();
-        NavigateBar.showAccountButton();
+
     }
 
     public void signOut(){
@@ -51,12 +49,11 @@ public final class UserAccount {
                 .build().encode().toUri();
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(url,null);
-        NavigateBar.hideSignOutButton();
-        NavigateBar.showSignInButton();
-        NavigateBar.hideAccountButton();
 
         setInstanceNull(); // CHECK IT
     }
 
-
+    public Long getId() {
+        return id;
+    }
 }

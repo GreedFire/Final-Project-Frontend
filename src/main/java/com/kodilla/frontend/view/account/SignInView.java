@@ -22,6 +22,8 @@ public class SignInView extends VerticalLayout {
     private RestTemplate restTemplate;
 
     public SignInView(){
+        NavigateBar navigateBar = new NavigateBar();
+        add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
 

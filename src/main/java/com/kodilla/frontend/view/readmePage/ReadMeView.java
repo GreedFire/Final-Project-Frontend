@@ -9,6 +9,8 @@ import com.vaadin.flow.router.Route;
 public class ReadMeView extends VerticalLayout {
 
     public ReadMeView() {
+        NavigateBar navigateBar = new NavigateBar();
+        add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
 
