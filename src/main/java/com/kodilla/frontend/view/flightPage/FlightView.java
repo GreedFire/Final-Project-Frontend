@@ -1,7 +1,6 @@
 package com.kodilla.frontend.view.flightPage;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.UserIdDto;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;

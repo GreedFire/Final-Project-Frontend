@@ -9,7 +9,7 @@ import java.net.URI;
 //SINGLETON
 public final class UserAccount {
     private static UserAccount userAccountInstance = null;
-    private Long id;
+    private Long id = 0L;
 
     private UserAccount(){
 
@@ -40,8 +40,9 @@ public final class UserAccount {
                 .build().encode().toUri();
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(url,null);
-        NavigateBar.getSignOut().setVisible(true);
-        NavigateBar.getSignIn().setVisible(false);
+        NavigateBar.showSignOutButton();
+        NavigateBar.hideSignInButton();
+        NavigateBar.showAccountButton();
     }
 
     public void signOut(){
@@ -50,8 +51,9 @@ public final class UserAccount {
                 .build().encode().toUri();
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(url,null);
-        NavigateBar.getSignOut().setVisible(false);
-        NavigateBar.getSignIn().setVisible(true); // CHECK FCKING VISIBILIYT
+        NavigateBar.hideSignOutButton();
+        NavigateBar.showSignInButton();
+        NavigateBar.hideAccountButton();
 
         setInstanceNull(); // CHECK IT
     }

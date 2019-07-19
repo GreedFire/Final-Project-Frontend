@@ -1,7 +1,6 @@
 package com.kodilla.frontend.view.account;
 
 import com.kodilla.frontend.domain.dto.UserAccount;
-import com.kodilla.frontend.domain.dto.UserIdDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.kodilla.frontend.view.holidayPage.MainView;
 import com.vaadin.flow.component.UI;
@@ -44,9 +43,9 @@ public class SignInView extends VerticalLayout {
                     .queryParam("username", username.getValue())
                     .queryParam("password", password.getValue())
                     .build().encode().toUri();
-            UserIdDto user = restTemplate.getForObject(url, UserIdDto.class);
-            if(user.getId() != null) {
-                UserAccount.getInstance().setId(user.getId());
+            Long id = restTemplate.getForObject(url, Long.class);
+            if(id != null) {
+                UserAccount.getInstance().setId(id);
                 UserAccount.getInstance().signIn();
                 UI.getCurrent().navigate(MainView.class);
             }

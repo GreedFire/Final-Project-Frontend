@@ -12,27 +12,25 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
-
-
+import org.springframework.stereotype.Component;
 
 @Data
+@Component
+@VaadinSessionScope
 public class NavigateBar extends HorizontalLayout{
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     private static Button signIn = new Button("SIGN IN");
     private static Button signUp = new Button("SIGN UP");
     private static Button account = new Button("ACCOUNT");
     private static Button signOut = new Button("SIGN OUT");
 
+
     public static HorizontalLayout drawImage(){
         HorizontalLayout logoLayout = new HorizontalLayout();
         Image logo = new Image("https://i.ibb.co/XZ8KLch/Untitled.png", "logo");
-        Image leftPalm = new Image("https://i.ibb.co/gtsdn3p/palm-left.png", "left-lalm");
+        Image leftPalm = new Image("https://i.ibb.co/gtsdn3p/palm-left.png", "left-palm");
         Image rightPalm = new Image("https://i.ibb.co/28mQZZR/palm-right.png", "right-palm");
         logoLayout.getStyle().set("margin", "auto");
         logoLayout.add(leftPalm, logo, rightPalm);
@@ -59,9 +57,10 @@ public class NavigateBar extends HorizontalLayout{
         account.getStyle().set("background", "none");
         signOut.getStyle().set("background", "none");
         menuButton4.getStyle().set("margin-right", "auto");
-        signOut.setVisible(false);
         menu.getStyle().set("background", "#e8ebef");
         menu.getStyle().set("margin", "auto");
+        hideSignOutButton();
+        hideAccountButton();
 
 
         menuButton1.addClickListener(e -> {
@@ -101,19 +100,27 @@ public class NavigateBar extends HorizontalLayout{
         return menu;
     }
 
-    public static Button getSignIn() {
-        return signIn;
+    public static void hideSignOutButton(){
+        signOut.setVisible(false);
     }
 
-    public static Button getSignUp() {
-        return signUp;
+    public static void showSignOutButton(){
+        signOut.setVisible(true);
     }
 
-    public static Button getAccount() {
-        return account;
+    public static void hideSignInButton(){
+        signIn.setVisible(false);
     }
 
-    public static Button getSignOut() {
-        return signOut;
+    public static void showSignInButton(){
+        signIn.setVisible(true);
+    }
+
+    public static void hideAccountButton(){
+        account.setVisible(false);
+    }
+
+    public static void showAccountButton(){
+        account.setVisible(true);
     }
 }
