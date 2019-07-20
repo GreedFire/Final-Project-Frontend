@@ -17,14 +17,13 @@ import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 
 @Route
@@ -32,6 +31,8 @@ public class SignUpView extends VerticalLayout {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SignUpView.class);
 
     public SignUpView() {
         NavigateBar navigateBar = new NavigateBar();
@@ -113,6 +114,7 @@ public class SignUpView extends VerticalLayout {
         add(layoutWithBinder, info);
 
         register.addClickListener(event -> {
+
             try {
                 binder.writeBean(userDto);
             } catch (ValidationException e) {
@@ -121,7 +123,7 @@ public class SignUpView extends VerticalLayout {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<UserDto> request = new HttpEntity<>(userDto, headers);
-
+            LOGGER.info("Creating user");
             Boolean authenticate = restTemplate.postForObject(UrlGenerator.CREATE_USER_URL, request, Boolean.class);
             if (authenticate != null && authenticate) {
                 info.setText("Succefully registered");

@@ -10,6 +10,8 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +20,8 @@ public class AccountView extends VerticalLayout {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountView.class);
 
     public AccountView() {
         NavigateBar navigateBar = new NavigateBar();
@@ -59,8 +63,10 @@ public class AccountView extends VerticalLayout {
 
         changePasswordButton.addClickListener(e -> {
             if (!UserAccount.isInstanceNull() && newPassword.getValue().equals(newPasswordRepeat.getValue())) {
+                LOGGER.info("Authenticating user");
                 Boolean authenticate = restTemplate.getForObject(UrlGenerator.userloggedIntURL(UserAccount.getInstance().getId()), Boolean.class);
                 if (authenticate != null && authenticate) {
+                    LOGGER.info("Changing user with id " + UserAccount.getInstance().getId() + " password");
                     restTemplate.put(UrlGenerator.passwordChangeURL(oldPassword.getValue(), newPassword.getValue()), null);
                     Boolean isNewPasswordOk = restTemplate.getForObject(UrlGenerator.checkNewPasswordURL(UserAccount.getInstance().getId(), newPassword.getValue()), Boolean.class);
                     if(isNewPasswordOk != null && isNewPasswordOk) {
@@ -110,8 +116,10 @@ public class AccountView extends VerticalLayout {
 
         deleteAccountButton.addClickListener(e -> {
             if (!UserAccount.isInstanceNull() && deletePassword.getValue().equals(deletePasswordRepeat.getValue())) {
+                LOGGER.info("Authenticating user: ");
                 Boolean authenticate = restTemplate.getForObject(UrlGenerator.userloggedIntURL(UserAccount.getInstance().getId()), Boolean.class);
                 if (authenticate != null && authenticate) {
+                    LOGGER.info("Deleting user with id " + UserAccount.getInstance().getId());
                     restTemplate.delete(UrlGenerator.accountDeleteURL(UserAccount.getInstance().getId(), deletePassword.getValue()));
                     deleteUserInfo.getStyle().set("color", "green");
                     deleteUserInfo.setText("Succesfully deleted Account");

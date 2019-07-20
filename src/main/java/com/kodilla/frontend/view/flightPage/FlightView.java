@@ -3,6 +3,7 @@ package com.kodilla.frontend.view.flightPage;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
+import com.kodilla.frontend.view.holidayPage.HolidayView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
@@ -12,6 +13,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -26,6 +29,8 @@ import java.util.List;
 public class FlightView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightView.class);
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
@@ -53,6 +58,7 @@ public class FlightView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
+            LOGGER.info("Searching for flights");
             URI url = UrlGenerator.flightsSearchURL(fromSearchBox.getValue(), whereSearchBox.getValue(), whenDate);
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
                     url, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
@@ -66,6 +72,7 @@ public class FlightView extends VerticalLayout {
         });
 
         historyButton.addClickListener(e -> {
+            LOGGER.info("Searching for flights history");
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
                     UrlGenerator.FLIGHT_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
@@ -75,6 +82,7 @@ public class FlightView extends VerticalLayout {
         });
 
         filterButton.addClickListener(e -> {
+            LOGGER.info("Filtering flights");
             URI url = UrlGenerator.filterFlightsURL(SEARCHID, carrierClass.getValue(),
                     Integer.parseInt(priceMoreThan.getValue()), Integer.parseInt(priceLessThan.getValue()));
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
@@ -90,6 +98,7 @@ public class FlightView extends VerticalLayout {
     }
 
     private void drawSearchResults(List<FlightDto> response) {
+        LOGGER.info("Drawing results");
         searchResultLayout.removeAll();
         searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
     }

@@ -1,10 +1,13 @@
 package com.kodilla.frontend.domain.dto;
 
 import com.kodilla.frontend.UrlGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 //SINGLETON
 public final class UserAccount {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserAccount.class);
     private static UserAccount userAccountInstance = null;
     private Long id = 0L;
 
@@ -39,7 +42,9 @@ public final class UserAccount {
     public void signOut(){
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(UrlGenerator.userSignOutURL(this.id),null);
+        LOGGER.info("Logged out user with id " + this.id);
         setInstanceNull();
+
     }
 
     public static boolean isInstanceNull(){

@@ -10,6 +10,8 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +20,8 @@ public class SignInView extends VerticalLayout {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SignInView.class);
 
     public SignInView(){
         NavigateBar navigateBar = new NavigateBar();
@@ -46,11 +50,13 @@ public class SignInView extends VerticalLayout {
         add(logInLayout);
 
         logIn.addClickListener(e-> {
+            LOGGER.info("Trying to log in user");
             Long id = restTemplate.getForObject(UrlGenerator.getUserIdURL(username.getValue(), password.getValue()), Long.class);
             if(id != null) {
                 UserAccount.getInstance().setId(id);
                 UserAccount.getInstance().signIn();
                 UI.getCurrent().navigate(MainView.class);
+                LOGGER.info("Logged in user with id: " + UserAccount.getInstance().getId());
             }
             else{
                 info.setText("Something Went Wrong!");

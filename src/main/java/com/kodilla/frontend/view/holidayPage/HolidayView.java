@@ -3,6 +3,7 @@ package com.kodilla.frontend.view.holidayPage;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.HolidayDto;
 import com.kodilla.frontend.view.NavigateBar;
+import com.kodilla.frontend.view.hotelPage.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.notification.Notification;
@@ -11,6 +12,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +27,7 @@ public class HolidayView extends VerticalLayout {
     private RestTemplate restTemplate;
 
     private NavigateBar navigateBar = new NavigateBar();
+    private static final Logger LOGGER = LoggerFactory.getLogger(HolidayView.class);
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
@@ -35,7 +39,6 @@ public class HolidayView extends VerticalLayout {
     private LocalDate untilDate = LocalDate.now().plusDays(20);
     private VerticalLayout searchResultLayout = new VerticalLayout();
     private Button searchButton;
-    private Button historyButton;
 
     public HolidayView() {
         add(navigateBar.drawAccountNavigateBar());
@@ -45,6 +48,7 @@ public class HolidayView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
+            LOGGER.info("Searching for holidays");
             URI url = UrlGenerator.holidaySearchURL(roomSearchBox.getValue(), fromSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
             final HolidayDto response = restTemplate.getForObject(url, HolidayDto.class);
@@ -52,18 +56,10 @@ public class HolidayView extends VerticalLayout {
                 drawSearchResults(response);
             } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
-
-        historyButton.addClickListener(e -> {
-//            ResponseEntity<List<HotelListDto>> response = restTemplate.exchange(
-//                    "http://localhost:8080/v1/hotels/history", HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
-//                    });
-//
-//            drawSearchResults(response.getBody());
-             Notification.show("NO FUNCTIONALITY", 4000, Notification.Position.MIDDLE);
-        });
     }
 
     private void drawSearchResults(HolidayDto response) {
+        LOGGER.info("Drawing results");
         searchResultLayout.removeAll();
         searchResultLayout.add(HolidaySearch.drawHolidayResults(response));
     }
@@ -86,16 +82,14 @@ public class HolidayView extends VerticalLayout {
         adultSearchBox.setItems(1, 2, 3, 4);
         adultSearchBox.setValue(1);
         searchButton = new Button("SEARCH");
-        historyButton = new Button("SEARCH HISTORY");
         //CSS
         roomSearchBox.getStyle().set("width", "70px");
         adultSearchBox.getStyle().set("width", "70px");
         searchButton.getStyle().set("margin-top", "37px");
-        historyButton.getStyle().set("margin-top", "37px");
         searchLayout.getStyle().set("margin", "auto");
 
         searchLayout.add(fromSearchBox, whereSearchBox, whenSearchBox, untilSearchBox, roomSearchBox, adultSearchBox,
-                searchButton, historyButton);
+                searchButton);
         add(searchLayout);
 
         whenSearchBox.addValueChangeListener(event -> {

@@ -1,6 +1,7 @@
 package com.kodilla.frontend.view.hotelPage;
 
 import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.UserAccount;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -13,6 +14,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -27,6 +30,8 @@ public class MainView extends NavigateBar {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainView.class);
 
     private TextField whereSearchBox;
     private DatePicker whenSearchBox;
@@ -61,6 +66,7 @@ public class MainView extends NavigateBar {
 
 
         searchButton.addClickListener(e -> {
+            LOGGER.info("Searching hotels");
             URI preparedUrlForHotelSearch = UrlGenerator.hotelsSearchURL(roomSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
             List<HotelListDto> response = restTemplate.exchange(
@@ -75,6 +81,7 @@ public class MainView extends NavigateBar {
         });
 
         historyButton.addClickListener(e -> {
+            LOGGER.info("Searching hotels in history");
             List<HotelListDto> response = restTemplate.exchange(
                     UrlGenerator.HOTEL_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
@@ -84,6 +91,7 @@ public class MainView extends NavigateBar {
         });
 
         filterButton.addClickListener(e -> {
+            LOGGER.info("Filtering hotels");
             URI preparedUrlForFilteredHotels = UrlGenerator.filterHotelsURL(SEARCHID, rating.getValue(),
                     stars.getValue(), Integer.parseInt(priceMoreThan.getValue()),
                     Integer.parseInt(priceLessThan.getValue()));
@@ -99,6 +107,7 @@ public class MainView extends NavigateBar {
 
     private void drawSearchResults(List<HotelListDto> response) {
         if (response != null) {
+            LOGGER.info("Drawing results");
             searchResultLayout.removeAll();
             searchResultLayout.add(HotelSearch.drawHotelResults(response, true));
         } else {
