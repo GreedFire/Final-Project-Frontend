@@ -1,10 +1,7 @@
 package com.kodilla.frontend.domain.dto;
 
-import com.kodilla.frontend.view.NavigateBar;
+import com.kodilla.frontend.UrlGenerator;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 //SINGLETON
 public final class UserAccount {
@@ -35,22 +32,21 @@ public final class UserAccount {
     }
 
     public void signIn(){
-        URI url = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/users/signIn")
-                .queryParam("userId", this.id)
-                .build().encode().toUri();
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put(url,null);
-
+        restTemplate.put(UrlGenerator.userSignInURL(this.id),null);
     }
 
     public void signOut(){
-        URI url = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/users/signOut")
-                .queryParam("userId", this.id)
-                .build().encode().toUri();
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put(url,null);
+        restTemplate.put(UrlGenerator.userSignOutURL(this.id),null);
+        setInstanceNull();
+    }
 
-        setInstanceNull(); // CHECK IT
+    public static boolean isInstanceNull(){
+        boolean result = true;
+        if(userAccountInstance != null)
+            result = false;
+        return result;
     }
 
     public Long getId() {

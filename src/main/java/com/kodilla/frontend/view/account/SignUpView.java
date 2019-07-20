@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view.account;
 
+import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.UserDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -37,7 +38,10 @@ public class SignUpView extends VerticalLayout {
         add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
+        drawSignUpForm();
+    }
 
+    private void drawSignUpForm(){
         UserDto userDto = new UserDto();
         FormLayout layoutWithBinder = new FormLayout();
 
@@ -85,11 +89,11 @@ public class SignUpView extends VerticalLayout {
 
         binder.forField(username)
                 .withValidator(new StringLengthValidator(
-                        "Please add the username", 2, 14))
+                        "Please add the username", 3, 14))
                 .bind(UserDto::getUsername, UserDto::setUsername);
         binder.forField(password)
                 .withValidator(new StringLengthValidator(
-                        "Please add the username", 2, 14))
+                        "Please add the username", 3, 14))
                 .bind(UserDto::getPassword, UserDto::setPassword);
         binder.forField(firstName)
                 .withValidator(new StringLengthValidator(
@@ -106,23 +110,19 @@ public class SignUpView extends VerticalLayout {
 
         actions.add(register, reset);
         layoutWithBinder.add(username, password, email, firstName, lastName, birthDate, actions);
-        add(layoutWithBinder);
-        add(info);
+        add(layoutWithBinder, info);
 
         register.addClickListener(event -> {
             try {
                 binder.writeBean(userDto);
             } catch (ValidationException e) {
-                System.out.println("Failed to bind data in register: " + e);
+                System.out.println("Failed to bind data in register tab: " + e);
             }
-
-            URI url = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/users")
-                    .build().encode().toUri();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<UserDto> request = new HttpEntity<>(userDto, headers);
 
-            Boolean authenticate = restTemplate.postForObject(url, request, Boolean.class);
+            Boolean authenticate = restTemplate.postForObject(UrlGenerator.CREATE_USER_URL, request, Boolean.class);
             if (authenticate != null && authenticate) {
                 info.setText("Succefully registered");
                 info.getStyle().set("color", "green");
@@ -130,7 +130,6 @@ public class SignUpView extends VerticalLayout {
             } else {
                 info.setText("USER EXISTS");
                 info.getStyle().set("color", "red");
-
             }
         });
 
@@ -139,6 +138,7 @@ public class SignUpView extends VerticalLayout {
             info.getStyle().set("color", "black");
         });
 
-
     }
+
+
 }

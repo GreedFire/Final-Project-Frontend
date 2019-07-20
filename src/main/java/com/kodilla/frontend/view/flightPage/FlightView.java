@@ -65,14 +65,9 @@ public class FlightView extends VerticalLayout {
 
         historyButton.addClickListener(e -> {
            ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
-                   UrlGenerator.FLIGHTHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+                   UrlGenerator.FLIGHT_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
-
-           //for now just first element because i need to change all request to List and change method param to List or
-           // write new method with list param
             drawSearchResults(response.getBody());
-
-
         });
 
         filterButton.addClickListener(e -> {

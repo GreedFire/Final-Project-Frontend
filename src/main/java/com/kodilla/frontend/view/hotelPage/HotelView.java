@@ -72,7 +72,7 @@ public class HotelView extends VerticalLayout {
 
         historyButton.addClickListener(e -> {
             List<HotelListDto> response = restTemplate.exchange(
-                    UrlGenerator.HOTELHISTORYURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+                    UrlGenerator.HOTEL_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
             drawSearchResults(response);
         });

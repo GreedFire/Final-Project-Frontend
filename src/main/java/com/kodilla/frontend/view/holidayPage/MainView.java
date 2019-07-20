@@ -18,7 +18,7 @@ import java.net.URI;
 import java.time.LocalDate;
 
 @Route
-public class MainView extends VerticalLayout {
+public class MainView extends NavigateBar {
 
     @Autowired
     private RestTemplate restTemplate;

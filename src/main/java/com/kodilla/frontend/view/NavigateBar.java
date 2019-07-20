@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view;
 
+import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.UserAccount;
 import com.kodilla.frontend.view.account.AccountView;
 import com.kodilla.frontend.view.account.SignInView;
@@ -12,46 +13,20 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class NavigateBar{
+public class NavigateBar extends VerticalLayout {
 
     private Button signIn = new Button("SIGN IN");
     private Button signUp = new Button("SIGN UP");
     private Button account = new Button("ACCOUNT");
-    private  Button signOut = new Button("SIGN OUT");
+    private Button signOut = new Button("SIGN OUT");
 
-    public HorizontalLayout drawAccountNavigateBar(){
-        signIn.getStyle().set("background", "none");
-        signUp.getStyle().set("background", "none");
-        account.getStyle().set("background", "none");
-        signOut.getStyle().set("background", "none");
-
-
-        signIn.addClickListener(e -> {
-            UI.getCurrent().navigate(SignInView.class);
-        });
-
-        signUp.addClickListener(e -> {
-            UI.getCurrent().navigate(SignUpView.class);
-        });
-
-        account.addClickListener(e -> {
-            UI.getCurrent().navigate(AccountView.class);
-        });
-
-        signOut.addClickListener(e -> {
-             UserAccount.getInstance().signOut();
-        });
-
-        return new HorizontalLayout(signOut ,signIn, signUp, account);
-    }
-
-
-    public static HorizontalLayout drawImage(){
+    public static HorizontalLayout drawImage() {
         HorizontalLayout logoLayout = new HorizontalLayout();
-        Image logo = new Image("https://i.ibb.co/XZ8KLch/Untitled.png", "logo");
-        Image leftPalm = new Image("https://i.ibb.co/gtsdn3p/palm-left.png", "left-palm");
-        Image rightPalm = new Image("https://i.ibb.co/28mQZZR/palm-right.png", "right-palm");
+        Image logo = new Image(UrlGenerator.LOGO, "logo");
+        Image leftPalm = new Image(UrlGenerator.LEFT_PALM_LOGO, "left-palm");
+        Image rightPalm = new Image(UrlGenerator.RIGHT_PALM_LOGO, "right-palm");
         logoLayout.getStyle().set("margin", "auto");
         logoLayout.add(leftPalm, logo, rightPalm);
 
@@ -78,7 +53,6 @@ public class NavigateBar{
         menu.getStyle().set("margin", "auto");
 
 
-
         menuButton1.addClickListener(e -> {
             UI.getCurrent().navigate(MainView.class);
         });
@@ -100,7 +74,45 @@ public class NavigateBar{
         return menu;
     }
 
-    public void hide(){
-        account.setVisible(false);
+    public HorizontalLayout drawAccountNavigateBar() {
+        signIn.getStyle().set("background", "none");
+        signUp.getStyle().set("background", "none");
+        account.getStyle().set("background", "none");
+        signOut.getStyle().set("background", "none");
+
+
+        signIn.addClickListener(e -> {
+            UI.getCurrent().navigate(SignInView.class);
+        });
+
+        signUp.addClickListener(e -> {
+            UI.getCurrent().navigate(SignUpView.class);
+        });
+
+        account.addClickListener(e -> {
+            UI.getCurrent().navigate(AccountView.class);
+        });
+
+        signOut.addClickListener(e -> {
+            UserAccount.getInstance().signOut();
+        });
+
+        return new HorizontalLayout(signOut, signIn, signUp, account);
+    }
+
+    public Button getSignIn() {
+        return signIn;
+    }
+
+    public Button getSignUp() {
+        return signUp;
+    }
+
+    public Button getAccount() {
+        return account;
+    }
+
+    public Button getSignOut() {
+        return signOut;
     }
 }
