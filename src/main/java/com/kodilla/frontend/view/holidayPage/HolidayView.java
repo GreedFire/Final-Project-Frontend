@@ -48,6 +48,7 @@ public class HolidayView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Searching for holidays");
             URI url = UrlGenerator.holidaySearchURL(roomSearchBox.getValue(), fromSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
@@ -60,7 +61,6 @@ public class HolidayView extends VerticalLayout {
 
     private void drawSearchResults(HolidayDto response) {
         LOGGER.info("Drawing results");
-        searchResultLayout.removeAll();
         searchResultLayout.add(HolidaySearch.drawHolidayResults(response));
     }
 

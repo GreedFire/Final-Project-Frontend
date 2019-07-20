@@ -66,6 +66,7 @@ public class MainView extends NavigateBar {
 
 
         searchButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Searching hotels");
             URI preparedUrlForHotelSearch = UrlGenerator.hotelsSearchURL(roomSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
@@ -81,6 +82,7 @@ public class MainView extends NavigateBar {
         });
 
         historyButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Searching hotels in history");
             List<HotelListDto> response = restTemplate.exchange(
                     UrlGenerator.HOTEL_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
@@ -91,6 +93,7 @@ public class MainView extends NavigateBar {
         });
 
         filterButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Filtering hotels");
             URI preparedUrlForFilteredHotels = UrlGenerator.filterHotelsURL(SEARCHID, rating.getValue(),
                     stars.getValue(), Integer.parseInt(priceMoreThan.getValue()),
@@ -108,7 +111,6 @@ public class MainView extends NavigateBar {
     private void drawSearchResults(List<HotelListDto> response) {
         if (response != null) {
             LOGGER.info("Drawing results");
-            searchResultLayout.removeAll();
             searchResultLayout.add(HotelSearch.drawHotelResults(response, true));
         } else {
             Notification.show("SOMETHING WENT WRONG! TRY AGAIN!", 3, Notification.Position.MIDDLE);

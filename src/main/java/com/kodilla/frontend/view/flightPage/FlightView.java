@@ -58,6 +58,7 @@ public class FlightView extends VerticalLayout {
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Searching for flights");
             URI url = UrlGenerator.flightsSearchURL(fromSearchBox.getValue(), whereSearchBox.getValue(), whenDate);
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
@@ -72,6 +73,7 @@ public class FlightView extends VerticalLayout {
         });
 
         historyButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Searching for flights history");
             ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
                     UrlGenerator.FLIGHT_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
@@ -82,6 +84,7 @@ public class FlightView extends VerticalLayout {
         });
 
         filterButton.addClickListener(e -> {
+            searchResultLayout.removeAll();
             LOGGER.info("Filtering flights");
             URI url = UrlGenerator.filterFlightsURL(SEARCHID, carrierClass.getValue(),
                     Integer.parseInt(priceMoreThan.getValue()), Integer.parseInt(priceLessThan.getValue()));
@@ -99,7 +102,6 @@ public class FlightView extends VerticalLayout {
 
     private void drawSearchResults(List<FlightDto> response) {
         LOGGER.info("Drawing results");
-        searchResultLayout.removeAll();
         searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
     }
 
