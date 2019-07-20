@@ -5,6 +5,7 @@ import com.kodilla.frontend.domain.dto.HolidayDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -12,13 +13,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
-import sun.plugin.javascript.navig.Navigator;
 
 import java.net.URI;
 import java.time.LocalDate;
 
 @Route
-public class MainView extends NavigateBar {
+public class HolidayView extends VerticalLayout {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -37,11 +37,10 @@ public class MainView extends NavigateBar {
     private Button searchButton;
     private Button historyButton;
 
-    public MainView( ) {
+    public HolidayView() {
         add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
-
         drawSearchMenu();
         add(searchResultLayout);
 
@@ -49,8 +48,9 @@ public class MainView extends NavigateBar {
             URI url = UrlGenerator.holidaySearchURL(roomSearchBox.getValue(), fromSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
             final HolidayDto response = restTemplate.getForObject(url, HolidayDto.class);
-            drawSearchResults(response);
-
+           if (response != null) {
+                drawSearchResults(response);
+            } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
 
         historyButton.addClickListener(e -> {
@@ -59,6 +59,7 @@ public class MainView extends NavigateBar {
 //                    });
 //
 //            drawSearchResults(response.getBody());
+             Notification.show("NO FUNCTIONALITY", 4000, Notification.Position.MIDDLE);
         });
     }
 
@@ -105,6 +106,6 @@ public class MainView extends NavigateBar {
             untilDate = event.getValue();
         });
     }
+
+
 }
-
-

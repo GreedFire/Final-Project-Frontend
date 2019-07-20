@@ -6,6 +6,7 @@ import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Route
-public class HotelView extends VerticalLayout {
+public class MainView extends NavigateBar {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -44,11 +45,12 @@ public class HotelView extends VerticalLayout {
     private TextField priceMoreThan;
     private TextField priceLessThan;
     private Button filterButton = new Button("Filter");
+    private Label info;
 
     private String SEARCHID;
 
 
-    public HotelView() {
+    public MainView() {
         NavigateBar navigateBar = new NavigateBar();
         add(navigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
@@ -57,6 +59,7 @@ public class HotelView extends VerticalLayout {
         drawHotelFilters();
         add(searchResultLayout);
 
+
         searchButton.addClickListener(e -> {
             URI preparedUrlForHotelSearch = UrlGenerator.hotelsSearchURL(roomSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
@@ -64,17 +67,20 @@ public class HotelView extends VerticalLayout {
                     preparedUrlForHotelSearch, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
 
-            if (response != null)
+            if (response != null && !response.isEmpty()){
                 SEARCHID = response.get(0).getHotelResponseId();
-            filterNavi.setVisible(true);
-            drawSearchResults(response);
+                filterNavi.setVisible(true);
+                drawSearchResults(response);
+            } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
 
         historyButton.addClickListener(e -> {
             List<HotelListDto> response = restTemplate.exchange(
                     UrlGenerator.HOTEL_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
-            drawSearchResults(response);
+            if (response != null && !response.isEmpty())
+                drawSearchResults(response);
+            else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
 
         filterButton.addClickListener(e -> {
@@ -85,7 +91,9 @@ public class HotelView extends VerticalLayout {
             List<HotelListDto> response = restTemplate.exchange(
                     preparedUrlForFilteredHotels, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
                     }).getBody();
-            drawSearchResults(response);
+            if (response != null && !response.isEmpty())
+                drawSearchResults(response);
+            else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
     }
 
@@ -163,6 +171,6 @@ public class HotelView extends VerticalLayout {
         });
 
     }
-
-
 }
+
+

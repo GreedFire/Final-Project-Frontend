@@ -6,6 +6,7 @@ import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -58,16 +59,19 @@ public class FlightView extends VerticalLayout {
                     });
             if (response.getBody() != null && response.getBody().size() > 0) {
                 SEARCHID = response.getBody().get(0).getId();
-            }
-            filterNavi.setVisible(true);
-            drawSearchResults(response.getBody());
+                filterNavi.setVisible(true);
+                drawSearchResults(response.getBody());
+            } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
+
         });
 
         historyButton.addClickListener(e -> {
-           ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
-                   UrlGenerator.FLIGHT_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
+            ResponseEntity<List<FlightDto>> response = restTemplate.exchange(
+                    UrlGenerator.FLIGHT_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
-            drawSearchResults(response.getBody());
+            if (response.getBody() != null && response.getBody().size() > 0) {
+                drawSearchResults(response.getBody());
+            } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
 
         filterButton.addClickListener(e -> {
@@ -77,7 +81,9 @@ public class FlightView extends VerticalLayout {
                     url, HttpMethod.GET, null, new ParameterizedTypeReference<List<FlightDto>>() {
                     });
 
-            drawSearchResults(response.getBody());
+            if (response.getBody() != null && response.getBody().size() > 0) {
+                drawSearchResults(response.getBody());
+            } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
 
 

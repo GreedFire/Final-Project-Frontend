@@ -3,7 +3,7 @@ package com.kodilla.frontend.view.account;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.UserAccount;
 import com.kodilla.frontend.view.NavigateBar;
-import com.kodilla.frontend.view.holidayPage.MainView;
+import com.kodilla.frontend.view.hotelPage.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;

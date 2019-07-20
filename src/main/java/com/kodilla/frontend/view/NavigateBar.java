@@ -6,8 +6,8 @@ import com.kodilla.frontend.view.account.AccountView;
 import com.kodilla.frontend.view.account.SignInView;
 import com.kodilla.frontend.view.account.SignUpView;
 import com.kodilla.frontend.view.flightPage.FlightView;
-import com.kodilla.frontend.view.holidayPage.MainView;
-import com.kodilla.frontend.view.hotelPage.HotelView;
+import com.kodilla.frontend.view.holidayPage.HolidayView;
+import com.kodilla.frontend.view.hotelPage.MainView;
 import com.kodilla.frontend.view.readmePage.ReadMeView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -37,9 +37,9 @@ public class NavigateBar extends VerticalLayout {
         //COMPONENTS
         HorizontalLayout menu = new HorizontalLayout();
         menu.setWidthFull();
-        Button menuButton1 = new Button("HOLIDAY");
-        Button menuButton2 = new Button("HOTELS");
-        Button menuButton3 = new Button("FLIGHTS");
+        Button menuButton1 = new Button("HOTELS");
+        Button menuButton2 = new Button("FLIGHTS");
+        Button menuButton3 = new Button("HOLIDAY");
         Button menuButton4 = new Button(">>>APP INFO<<<");
 
         //CSS
@@ -58,11 +58,11 @@ public class NavigateBar extends VerticalLayout {
         });
 
         menuButton2.addClickListener(e -> {
-            UI.getCurrent().navigate(HotelView.class);
+            UI.getCurrent().navigate(FlightView.class);
         });
 
         menuButton3.addClickListener(e -> {
-            UI.getCurrent().navigate(FlightView.class);
+            UI.getCurrent().navigate(HolidayView.class);
         });
 
         menuButton4.addClickListener(e -> {
