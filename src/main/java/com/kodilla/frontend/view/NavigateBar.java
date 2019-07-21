@@ -17,7 +17,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class NavigateBar extends VerticalLayout {
 
-    private Button signIn = new Button("SIGN IN");
+    private  Button signIn = new Button("SIGN IN");
     private Button signUp = new Button("SIGN UP");
     private Button account = new Button("ACCOUNT");
     private Button signOut = new Button("SIGN OUT");
@@ -80,6 +80,10 @@ public class NavigateBar extends VerticalLayout {
         account.getStyle().set("background", "none");
         signOut.getStyle().set("background", "none");
 
+        account.setVisible(!UserAccount.isInstanceNull());
+        signOut.setVisible(!UserAccount.isInstanceNull());
+        signIn.setVisible(UserAccount.isInstanceNull());
+        signUp.setVisible(UserAccount.isInstanceNull());
 
         signIn.addClickListener(e -> {
             UI.getCurrent().navigate(SignInView.class);
@@ -95,6 +99,9 @@ public class NavigateBar extends VerticalLayout {
 
         signOut.addClickListener(e -> {
             UserAccount.getInstance().signOut();
+            System.out.println(UserAccount.isInstanceNull());
+            UI.getCurrent().getPage().reload();
+
         });
 
         return new HorizontalLayout(signOut, signIn, signUp, account);

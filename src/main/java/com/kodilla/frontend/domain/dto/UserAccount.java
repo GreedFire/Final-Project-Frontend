@@ -43,6 +43,7 @@ public final class UserAccount {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(UrlGenerator.userSignOutURL(this.id),null);
         LOGGER.info("Logged out user with id " + this.id);
+
         setInstanceNull();
 
     }
