@@ -1,6 +1,5 @@
-package com.kodilla.frontend.domain.dto;
+package com.kodilla.frontend;
 
-import com.kodilla.frontend.UrlGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -11,17 +10,13 @@ public final class UserAccount {
     private static UserAccount userAccountInstance = null;
     private Long id = 0L;
 
-    private UserAccount(){
+    private UserAccount() {
 
-    }
-
-    public void setInstanceNull(){
-        userAccountInstance = null;
     }
 
     public static UserAccount getInstance() {
         if (userAccountInstance == null) {
-            synchronized(UserAccount.class) {
+            synchronized (UserAccount.class) {
                 if (userAccountInstance == null) {
                     userAccountInstance = new UserAccount();
                 }
@@ -30,32 +25,34 @@ public final class UserAccount {
         return userAccountInstance;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void signIn(){
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put(UrlGenerator.userSignInURL(this.id),null);
-    }
-
-    public void signOut(){
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put(UrlGenerator.userSignOutURL(this.id),null);
-        LOGGER.info("Logged out user with id " + this.id);
-
-        setInstanceNull();
-
-    }
-
-    public static boolean isInstanceNull(){
+    public static boolean isInstanceNull() {
         boolean result = true;
-        if(userAccountInstance != null)
+        if (userAccountInstance != null)
             result = false;
         return result;
     }
 
+    public void setInstanceNull() {
+        userAccountInstance = null;
+    }
+
+    public void signIn() {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(UrlGenerator.userSignInURL(this.id), null);
+    }
+
+    public void signOut() {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(UrlGenerator.userSignOutURL(this.id), null);
+        LOGGER.info("Logged out user with id " + this.id);
+        setInstanceNull();
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

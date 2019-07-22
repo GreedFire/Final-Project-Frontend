@@ -1,6 +1,5 @@
 package com.kodilla.frontend;
 
-import com.kodilla.frontend.domain.dto.UserAccount;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;

@@ -1,13 +1,11 @@
 package com.kodilla.frontend.view.hotelPage;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.UserAccount;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -50,10 +48,8 @@ public class MainView extends NavigateBar {
     private TextField priceMoreThan;
     private TextField priceLessThan;
     private Button filterButton = new Button("Filter");
-    private Label info;
 
     private String SEARCHID;
-
 
     public MainView() {
         NavigateBar navigateBar = new NavigateBar();
@@ -63,7 +59,6 @@ public class MainView extends NavigateBar {
         drawSearchMenu();
         drawHotelFilters();
         add(searchResultLayout);
-
 
         searchButton.addClickListener(e -> {
             searchResultLayout.removeAll();

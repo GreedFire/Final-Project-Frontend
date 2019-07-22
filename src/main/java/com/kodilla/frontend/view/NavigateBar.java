@@ -1,7 +1,7 @@
 package com.kodilla.frontend.view;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.UserAccount;
+import com.kodilla.frontend.UserAccount;
 import com.kodilla.frontend.view.account.AccountView;
 import com.kodilla.frontend.view.account.SignInView;
 import com.kodilla.frontend.view.account.SignUpView;
@@ -17,7 +17,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class NavigateBar extends VerticalLayout {
 
-    private  Button signIn = new Button("SIGN IN");
+    private Button signIn = new Button("SIGN IN");
     private Button signUp = new Button("SIGN UP");
     private Button account = new Button("ACCOUNT");
     private Button signOut = new Button("SIGN OUT");
@@ -99,27 +99,9 @@ public class NavigateBar extends VerticalLayout {
 
         signOut.addClickListener(e -> {
             UserAccount.getInstance().signOut();
-            System.out.println(UserAccount.isInstanceNull());
             UI.getCurrent().getPage().reload();
-
         });
 
         return new HorizontalLayout(signOut, signIn, signUp, account);
-    }
-
-    public Button getSignIn() {
-        return signIn;
-    }
-
-    public Button getSignUp() {
-        return signUp;
-    }
-
-    public Button getAccount() {
-        return account;
-    }
-
-    public Button getSignOut() {
-        return signOut;
     }
 }

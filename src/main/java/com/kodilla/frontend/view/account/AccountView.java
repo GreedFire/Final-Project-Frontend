@@ -1,11 +1,12 @@
 package com.kodilla.frontend.view.account;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.UserAccount;
+import com.kodilla.frontend.UserAccount;
 import com.kodilla.frontend.view.NavigateBar;
 import com.kodilla.frontend.view.hotelPage.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -34,6 +35,7 @@ public class AccountView extends VerticalLayout {
 
     private void drawPasswordChangeSettings() {
         //COMPONENTS
+        Div div = new Div();
         VerticalLayout passwordLayout = new VerticalLayout();
         Label passwordLabel = new Label("Change password: ");
         PasswordField oldPassword = new PasswordField("Old password: ");
@@ -43,11 +45,11 @@ public class AccountView extends VerticalLayout {
         Label changePasswordInfo = new Label();
 
         //CSS
-        passwordLayout.getStyle().set("margin", "auto");
         passwordLabel.getStyle().set("font-size", "30px");
         passwordLabel.getStyle().set("font-weight", "bold");
         changePasswordInfo.getStyle().set("font-size", "20px");
         changePasswordInfo.getStyle().set("font-weight", "bold");
+        div.getStyle().set("margin", "auto");
 
         //FORMATTING
         oldPassword.setRequiredIndicatorVisible(true);
@@ -59,7 +61,8 @@ public class AccountView extends VerticalLayout {
 
         //ADDING COMPONENTS
         passwordLayout.add(passwordLabel, oldPassword, newPassword, newPasswordRepeat, changePasswordButton, changePasswordInfo);
-        add(passwordLayout);
+        div.add(passwordLayout);
+        add(div);
 
         changePasswordButton.addClickListener(e -> {
             if (!UserAccount.isInstanceNull() && newPassword.getValue().equals(newPasswordRepeat.getValue())) {
@@ -86,10 +89,13 @@ public class AccountView extends VerticalLayout {
                 changePasswordInfo.setText("Password not match");
             }
         });
+
+
     }
 
     private void drawDeleteAccountSettings() {
         //COMPONENTS
+        Div div = new Div();
         VerticalLayout deleteLayout = new VerticalLayout();
         Label deleteLabel = new Label("Delete Account: ");
         PasswordField deletePassword = new PasswordField("Password: ");
@@ -98,6 +104,7 @@ public class AccountView extends VerticalLayout {
         Label deleteUserInfo = new Label();
 
         //CSS
+        div.getStyle().set("margin", "auto");
         deleteLabel.getStyle().set("font-size", "30px");
         deleteLabel.getStyle().set("font-weight", "bold");
         deleteAccountButton.getStyle().set("color", "red");
@@ -112,7 +119,8 @@ public class AccountView extends VerticalLayout {
 
         //ADDING COMPONENTS
         deleteLayout.add(deleteLabel, deletePassword, deletePasswordRepeat, deleteAccountButton, deleteUserInfo);
-        add(deleteLayout);
+        div.add(deleteLayout);
+        add(div);
 
         deleteAccountButton.addClickListener(e -> {
             if (!UserAccount.isInstanceNull() && deletePassword.getValue().equals(deletePasswordRepeat.getValue())) {
