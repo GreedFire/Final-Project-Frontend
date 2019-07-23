@@ -3,7 +3,6 @@ package com.kodilla.frontend.view.hotelPage;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
@@ -25,7 +24,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Route
-public class MainView extends NavigateBar {
+public class MainView extends VerticalLayout {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -60,8 +59,6 @@ public class MainView extends NavigateBar {
         drawSearchMenu();
         drawHotelFilters();
         add(searchResultLayout);
-
-
 
         searchButton.addClickListener(e -> {
             searchResultLayout.removeAll();
@@ -111,7 +108,7 @@ public class MainView extends NavigateBar {
             LOGGER.info("Drawing results");
             searchResultLayout.add(HotelSearch.drawHotelResults(response, true));
         } else {
-            Notification.show("SOMETHING WENT WRONG! TRY AGAIN!", 3, Notification.Position.MIDDLE);
+            Notification.show("SOMETHING WENT WRONG! TRY AGAIN!", 4000, Notification.Position.MIDDLE);
         }
     }
 

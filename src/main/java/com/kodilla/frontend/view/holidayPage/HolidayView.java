@@ -6,6 +6,7 @@ import com.kodilla.frontend.view.NavigateBar;
 import com.kodilla.frontend.view.hotelPage.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -45,6 +46,12 @@ public class HolidayView extends VerticalLayout {
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSearchMenu();
+        Label notworking = new Label("THIS SUBPAGE IS NOT WORKING PROPERLY YET. PLEASE GO TO HOTEL OR FLIGHT");
+        notworking.getStyle().set("fonr-size", "40");
+        notworking.getStyle().set("font-weight", "bold");
+        notworking.getStyle().set("color", "red");
+        notworking.getStyle().set("margin", "auto");
+        add(notworking);
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {

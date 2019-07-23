@@ -1,6 +1,10 @@
 package com.kodilla.frontend.view.hotelPage;
 
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
+import com.kodilla.frontend.view.account.SignInView;
+import com.kodilla.frontend.view.booking.BookFlightView;
+import com.kodilla.frontend.view.booking.BookHotelView;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -61,6 +65,19 @@ public class HotelSearch {
             imageAndInfo.add(hotelImage, hotelFormatting);
             div.add(imageAndInfo);
             result.add(div);
+
+            bookButton.addClickListener(e -> {
+                if(UI.getCurrent().getId().isPresent()) {
+                    long userId = Long.parseLong(UI.getCurrent().getId().get());
+                    if (userId != 0) {
+                        BookHotelView.setHotel(hotel);
+                        UI.getCurrent().navigate(BookHotelView.class);
+                    } else {
+                        UI.getCurrent().navigate(SignInView.class);
+                    }
+                }
+                else UI.getCurrent().navigate(SignInView.class);
+            });
         }
 
         return result;
