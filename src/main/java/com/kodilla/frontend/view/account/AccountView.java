@@ -24,8 +24,7 @@ public class AccountView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountView.class);
 
     public AccountView() {
-        NavigateBar navigateBar = new NavigateBar();
-        add(navigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawPasswordChangeSettings();

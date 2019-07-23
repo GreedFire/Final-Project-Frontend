@@ -35,8 +35,7 @@ public class SignUpView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(SignUpView.class);
 
     public SignUpView() {
-        NavigateBar navigateBar = new NavigateBar();
-        add(navigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSignUpForm();

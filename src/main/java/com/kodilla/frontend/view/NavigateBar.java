@@ -21,11 +21,6 @@ public class NavigateBar extends VerticalLayout {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NavigateBar.class);
 
-    private  Button signIn = new Button("SIGN IN");
-    private Button signUp = new Button("SIGN UP");
-    private Button account = new Button("ACCOUNT");
-    private Button signOut = new Button("SIGN OUT");
-
     public static HorizontalLayout drawImage() {
         HorizontalLayout logoLayout = new HorizontalLayout();
         Image logo = new Image(UrlGenerator.LOGO, "logo");
@@ -78,7 +73,11 @@ public class NavigateBar extends VerticalLayout {
         return menu;
     }
 
-    public HorizontalLayout drawAccountNavigateBar() {
+    public static HorizontalLayout drawAccountNavigateBar() {
+        Button signIn = new Button("SIGN IN");
+        Button signUp = new Button("SIGN UP");
+        Button account = new Button("ACCOUNT");
+        Button signOut = new Button("SIGN OUT");
         signIn.getStyle().set("background", "none");
         signUp.getStyle().set("background", "none");
         account.getStyle().set("background", "none");

@@ -1,6 +1,7 @@
 package com.kodilla.frontend.view.booking;
 
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
+import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -25,6 +26,9 @@ public class BookHotelView extends VerticalLayout {
     private static HotelListDto hotel;
 
     public BookHotelView(){
+        add(NavigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawImage());
+        add(NavigateBar.drawNavigateBar());
         Div result = new Div();
         Div div = new Div();
         div.getStyle().set("margin-bottom", "5px");
@@ -70,6 +74,7 @@ public class BookHotelView extends VerticalLayout {
         result.add(div);
         add(result);
         result.getStyle().set("margin", "auto");
+
 
         NumberField cardID = new NumberField("Card number(false): ");
         NumberField cvc = new NumberField("CVC(false): ");

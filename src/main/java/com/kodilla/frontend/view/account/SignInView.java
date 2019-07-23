@@ -23,8 +23,7 @@ public class SignInView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(SignInView.class);
 
     public SignInView(){
-        NavigateBar navigateBar = new NavigateBar();
-        add(navigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSignInForm();

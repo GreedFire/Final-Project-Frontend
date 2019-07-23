@@ -1,6 +1,7 @@
 package com.kodilla.frontend.view.booking;
 
 import com.kodilla.frontend.domain.dto.flight.FlightCarriersDto;
+import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
@@ -25,6 +26,9 @@ public class BookFlightView extends VerticalLayout {
     private static FlightCarriersDto carrier;
 
     public BookFlightView() {
+        add(NavigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawImage());
+        add(NavigateBar.drawNavigateBar());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Div carrierDiv = new Div();
         carrierDiv.getStyle().set("margin-bottom", "5px");

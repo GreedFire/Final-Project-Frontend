@@ -52,8 +52,7 @@ public class MainView extends VerticalLayout {
     private String SEARCHID;
 
     public MainView() {
-        NavigateBar navigateBar = new NavigateBar();
-        add(navigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSearchMenu();

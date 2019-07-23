@@ -27,7 +27,6 @@ public class HolidayView extends VerticalLayout {
     @Autowired
     private RestTemplate restTemplate;
 
-    private NavigateBar navigateBar = new NavigateBar();
     private static final Logger LOGGER = LoggerFactory.getLogger(HolidayView.class);
 
     private TextField fromSearchBox;
@@ -42,7 +41,7 @@ public class HolidayView extends VerticalLayout {
     private Button searchButton;
 
     public HolidayView() {
-        add(navigateBar.drawAccountNavigateBar());
+        add(NavigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSearchMenu();
