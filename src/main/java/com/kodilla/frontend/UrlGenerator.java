@@ -1,5 +1,6 @@
 package com.kodilla.frontend;
 
+import com.vaadin.flow.component.UI;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -80,8 +81,9 @@ public class UrlGenerator {
     }
 
     public static URI passwordChangeURL(String oldPassword, String newPassword){
+        long id = Long.parseLong(UI.getCurrent().getId().get());
         return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/users/passwordChange")
-                .queryParam("id", UserAccount.getInstance().getId())
+                .queryParam("id", id)
                 .queryParam("oldPassword", oldPassword)
                 .queryParam("newPassword", newPassword)
                 .build().encode().toUri();

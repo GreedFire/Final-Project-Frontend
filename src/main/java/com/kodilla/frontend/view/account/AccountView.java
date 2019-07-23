@@ -1,7 +1,6 @@
 package com.kodilla.frontend.view.account;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.UserAccount;
 import com.kodilla.frontend.view.NavigateBar;
 import com.kodilla.frontend.view.hotelPage.MainView;
 import com.vaadin.flow.component.UI;
@@ -65,13 +64,16 @@ public class AccountView extends VerticalLayout {
         add(div);
 
         changePasswordButton.addClickListener(e -> {
-            if (!UserAccount.isInstanceNull() && newPassword.getValue().equals(newPasswordRepeat.getValue())) {
+            long id = 0;
+            if(UI.getCurrent().getId().isPresent())
+                id = Long.parseLong(UI.getCurrent().getId().get());
+            if (id != 0 && newPassword.getValue().equals(newPasswordRepeat.getValue())) {
                 LOGGER.info("Authenticating user");
-                Boolean authenticate = restTemplate.getForObject(UrlGenerator.userloggedIntURL(UserAccount.getInstance().getId()), Boolean.class);
+                Boolean authenticate = restTemplate.getForObject(UrlGenerator.userloggedIntURL(id), Boolean.class);
                 if (authenticate != null && authenticate) {
-                    LOGGER.info("Changing user with id " + UserAccount.getInstance().getId() + " password");
+                    LOGGER.info("Changing user with id " + id + " password");
                     restTemplate.put(UrlGenerator.passwordChangeURL(oldPassword.getValue(), newPassword.getValue()), null);
-                    Boolean isNewPasswordOk = restTemplate.getForObject(UrlGenerator.checkNewPasswordURL(UserAccount.getInstance().getId(), newPassword.getValue()), Boolean.class);
+                    Boolean isNewPasswordOk = restTemplate.getForObject(UrlGenerator.checkNewPasswordURL(id, newPassword.getValue()), Boolean.class);
                     if(isNewPasswordOk != null && isNewPasswordOk) {
                         changePasswordInfo.getStyle().set("color", "green");
                         changePasswordInfo.setText("Successfully changed password");
@@ -123,15 +125,22 @@ public class AccountView extends VerticalLayout {
         add(div);
 
         deleteAccountButton.addClickListener(e -> {
-            if (!UserAccount.isInstanceNull() && deletePassword.getValue().equals(deletePasswordRepeat.getValue())) {
+            long id = 0;
+            if(UI.getCurrent().getId().isPresent())
+                id = Long.parseLong(UI.getCurrent().getId().get());
+            if (id !=0 && deletePassword.getValue().equals(deletePasswordRepeat.getValue())) {
                 LOGGER.info("Authenticating user: ");
-                Boolean authenticate = restTemplate.getForObject(UrlGenerator.userloggedIntURL(UserAccount.getInstance().getId()), Boolean.class);
+                Boolean authenticate = restTemplate.getForObject(UrlGenerator.userloggedIntURL(id), Boolean.class);
                 if (authenticate != null && authenticate) {
-                    LOGGER.info("Deleting user with id " + UserAccount.getInstance().getId());
-                    restTemplate.delete(UrlGenerator.accountDeleteURL(UserAccount.getInstance().getId(), deletePassword.getValue()));
+                    LOGGER.info("Deleting user with id " + id);
+                    restTemplate.delete(UrlGenerator.accountDeleteURL(id, deletePassword.getValue()));
                     deleteUserInfo.getStyle().set("color", "green");
                     deleteUserInfo.setText("Succesfully deleted Account");
-                    UserAccount.getInstance().signOut();
+                    //
+                    restTemplate.put(UrlGenerator.userSignOutURL(id),null);
+                    LOGGER.info("Logged out user with id " + id);
+                    UI.getCurrent().setId("0");
+                    //
                     UI.getCurrent().navigate(MainView.class);
                 } else {
                     deleteUserInfo.getStyle().set("color", "red");

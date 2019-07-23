@@ -1,7 +1,6 @@
 package com.kodilla.frontend.view;
 
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.UserAccount;
 import com.kodilla.frontend.view.account.AccountView;
 import com.kodilla.frontend.view.account.SignInView;
 import com.kodilla.frontend.view.account.SignUpView;
@@ -14,10 +13,15 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
 
 public class NavigateBar extends VerticalLayout {
 
-    private Button signIn = new Button("SIGN IN");
+    private static final Logger LOGGER = LoggerFactory.getLogger(NavigateBar.class);
+
+    private  Button signIn = new Button("SIGN IN");
     private Button signUp = new Button("SIGN UP");
     private Button account = new Button("ACCOUNT");
     private Button signOut = new Button("SIGN OUT");
@@ -80,10 +84,10 @@ public class NavigateBar extends VerticalLayout {
         account.getStyle().set("background", "none");
         signOut.getStyle().set("background", "none");
 
-        account.setVisible(!UserAccount.isInstanceNull());
-        signOut.setVisible(!UserAccount.isInstanceNull());
-        signIn.setVisible(UserAccount.isInstanceNull());
-        signUp.setVisible(UserAccount.isInstanceNull());
+        account.setVisible(UI.getCurrent().getId().isPresent());
+        signOut.setVisible(UI.getCurrent().getId().isPresent());
+        signIn.setVisible(!UI.getCurrent().getId().isPresent());
+        signUp.setVisible(!UI.getCurrent().getId().isPresent());
 
         signIn.addClickListener(e -> {
             UI.getCurrent().navigate(SignInView.class);
@@ -98,7 +102,11 @@ public class NavigateBar extends VerticalLayout {
         });
 
         signOut.addClickListener(e -> {
-            UserAccount.getInstance().signOut();
+            RestTemplate restTemplate = new RestTemplate();
+            long id = Long.parseLong(UI.getCurrent().getId().get());
+            restTemplate.put(UrlGenerator.userSignOutURL(id),null);
+            LOGGER.info("Logged out user with id " + id);
+            UI.getCurrent().setId("0");
             UI.getCurrent().getPage().reload();
         });
 
