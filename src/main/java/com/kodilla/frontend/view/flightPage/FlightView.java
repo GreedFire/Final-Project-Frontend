@@ -101,7 +101,7 @@ public class FlightView extends VerticalLayout {
 
     private void drawSearchResults(List<FlightDto> response) {
         LOGGER.info("Drawing results");
-        searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
+        searchResultLayout.add(FlightSearch.drawFlightResults(response, true, fromSearchBox.getValue(), whereSearchBox.getValue()));
     }
 
     private void drawSearchMenu() {

@@ -67,7 +67,7 @@ public class HolidayView extends VerticalLayout {
 
     private void drawSearchResults(HolidayDto response) {
         LOGGER.info("Drawing results");
-        searchResultLayout.add(HolidaySearch.drawHolidayResults(response));
+        searchResultLayout.add(HolidaySearch.drawHolidayResults(response, fromSearchBox.getValue(), whereSearchBox.getValue()));
     }
 
     private void drawSearchMenu() {
