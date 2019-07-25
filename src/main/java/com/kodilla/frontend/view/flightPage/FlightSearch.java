@@ -20,11 +20,6 @@ public class FlightSearch {
         for (FlightDto dto : response) {
             if (marginAuto)
                 resultDiv.getStyle().set("margin", "auto");
-            Label originLabel = new Label(origin);
-            Label to = new Label("to");
-            Label destinationLabel = new Label(destination);
-            HorizontalLayout originAndDestinationLayout = new HorizontalLayout(originLabel, to, destinationLabel);
-            resultDiv.add(originAndDestinationLayout);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             for (FlightCarriersDto carrier : dto.getCarriers()) {
@@ -54,11 +49,6 @@ public class FlightSearch {
                 carrierDiv.getStyle().set("width", "400px");
                 carrierDiv.getStyle().set("border-style", "solid");
                 carrierDiv.getStyle().set("border-width", "2px");
-                originLabel.getStyle().set("font-size", "20px");
-                originLabel.getStyle().set("font-weight", "bold");
-                destinationLabel.getStyle().set("font-size", "20px");
-                destinationLabel.getStyle().set("font-weight", "bold");
-                to.getStyle().set("font-size", "20px");
 
                 bookButton.addClickListener(e -> {
                     if (UI.getCurrent().getId().isPresent()) {

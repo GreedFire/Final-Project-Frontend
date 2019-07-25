@@ -112,9 +112,7 @@ public class BookHotelView extends VerticalLayout {
                     contentStream.moveTextPositionByAmount(100, 700);
                     contentStream.showText("EXAMPLE Invoice " + LocalDate.now());
                     contentStream.endText();
-
                     contentStream.close();
-
                     document.save("C:/travelApp_Hotel_Invoice.pdf");
                     document.close();
 

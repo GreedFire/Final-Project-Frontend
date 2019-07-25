@@ -27,6 +27,7 @@ import java.util.List;
 
 @Route
 public class FlightView extends VerticalLayout {
+
     @Autowired
     private RestTemplate restTemplate;
 
