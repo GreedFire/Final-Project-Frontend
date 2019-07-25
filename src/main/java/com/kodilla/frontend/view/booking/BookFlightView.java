@@ -16,6 +16,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.awt.*;
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -98,16 +99,16 @@ public class BookFlightView extends VerticalLayout {
                     document.save("C:/travelApp_flight_Invoice.pdf");
                     document.close();
 
-                    File file = new File("C:/travelApp_flight_Invoice.pdf");
+                   File file = new File("C:/travelApp_flight_Invoice.pdf");
                     if (file.toString().endsWith(".pdf"))
-                        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
+                            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
                     else {
                         Desktop desktop = Desktop.getDesktop();
                         desktop.open(file);
                     }
 
                 } catch (IOException exception) {
-                    System.out.println(exception);
+                    System.out.println("No flight pdf file: " + exception);
                 }
             } else Notification.show("Wrong card or cvc number!", 4000, Notification.Position.MIDDLE);
         });
