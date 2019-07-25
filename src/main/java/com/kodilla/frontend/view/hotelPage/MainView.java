@@ -32,8 +32,7 @@ public class MainView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainView.class);
 
     private TextField whereSearchBox;
-    private DatePicker whenSearchBox;
-    private DatePicker untilSearchBox;
+
     private Select<Integer> roomSearchBox;
     private Select<Integer> adultSearchBox;
     private LocalDate whenDate = LocalDate.now().plusDays(10);
@@ -41,7 +40,6 @@ public class MainView extends VerticalLayout {
     private VerticalLayout searchResultLayout = new VerticalLayout();
     private Button searchButton;
     private Button historyButton;
-
     private Div filterNavi;
     private Select<Integer> rating;
     private Select<Integer> stars;
@@ -112,7 +110,7 @@ public class MainView extends VerticalLayout {
     }
 
 
-    public void drawHotelFilters() {
+    private void drawHotelFilters() {
         //COMPONENTS
         filterNavi = new Div();
         filterNavi.setVisible(false);
@@ -143,6 +141,8 @@ public class MainView extends VerticalLayout {
         //COMPONENTS
         HorizontalLayout searchLayout = new HorizontalLayout();
         whereSearchBox = new TextField("Where you want to go?");
+        DatePicker whenSearchBox;
+        DatePicker untilSearchBox;
         whenSearchBox = new DatePicker("When?");
         untilSearchBox = new DatePicker("Until when?");
         whenSearchBox.setPlaceholder(whenDate.toString());
@@ -167,13 +167,8 @@ public class MainView extends VerticalLayout {
         searchLayout.add(whereSearchBox, whenSearchBox, untilSearchBox, roomSearchBox, adultSearchBox, searchButton, historyButton);
         add(searchLayout);
 
-        whenSearchBox.addValueChangeListener(event -> {
-            whenDate = event.getValue();
-        });
-
-        untilSearchBox.addValueChangeListener(event -> {
-            untilDate = event.getValue();
-        });
+        whenSearchBox.addValueChangeListener(event -> whenDate = event.getValue());
+        untilSearchBox.addValueChangeListener(event -> untilDate = event.getValue());
 
     }
 }

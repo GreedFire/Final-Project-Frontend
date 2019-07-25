@@ -2,7 +2,6 @@ package com.kodilla.frontend.view.hotelPage;
 
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.account.SignInView;
-import com.kodilla.frontend.view.booking.BookFlightView;
 import com.kodilla.frontend.view.booking.BookHotelView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

@@ -114,10 +114,6 @@ public class BookFlightView extends VerticalLayout {
         });
     }
 
-    public static FlightCarriersDto getCarrier() {
-        return carrier;
-    }
-
     public static void setCarrier(FlightCarriersDto carriera) {
         carrier = carriera;
     }

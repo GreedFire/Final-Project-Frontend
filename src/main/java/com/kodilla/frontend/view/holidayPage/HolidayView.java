@@ -3,7 +3,6 @@ package com.kodilla.frontend.view.holidayPage;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.HolidayDto;
 import com.kodilla.frontend.view.NavigateBar;
-import com.kodilla.frontend.view.hotelPage.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Label;
@@ -31,8 +30,6 @@ public class HolidayView extends VerticalLayout {
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
-    private DatePicker whenSearchBox;
-    private DatePicker untilSearchBox;
     private Select<Integer> roomSearchBox;
     private Select<Integer> adultSearchBox;
     private LocalDate whenDate = LocalDate.now().plusDays(10);
@@ -67,13 +64,15 @@ public class HolidayView extends VerticalLayout {
 
     private void drawSearchResults(HolidayDto response) {
         LOGGER.info("Drawing results");
-        searchResultLayout.add(HolidaySearch.drawHolidayResults(response, fromSearchBox.getValue(), whereSearchBox.getValue()));
+        searchResultLayout.add(HolidaySearch.drawHolidayResults(response));
     }
 
     private void drawSearchMenu() {
         //COMPONENTS
         HorizontalLayout searchLayout = new HorizontalLayout();
         whereSearchBox = new TextField("Where you want to go?");
+        DatePicker whenSearchBox;
+        DatePicker untilSearchBox;
         whenSearchBox = new DatePicker("When?");
         untilSearchBox = new DatePicker("Until when?");
         whenSearchBox.setPlaceholder(whenDate.toString());
@@ -98,13 +97,8 @@ public class HolidayView extends VerticalLayout {
                 searchButton);
         add(searchLayout);
 
-        whenSearchBox.addValueChangeListener(event -> {
-            whenDate = event.getValue();
-        });
-
-        untilSearchBox.addValueChangeListener(event -> {
-            untilDate = event.getValue();
-        });
+        whenSearchBox.addValueChangeListener(event -> whenDate = event.getValue());
+        untilSearchBox.addValueChangeListener(event -> untilDate = event.getValue());
     }
 
 

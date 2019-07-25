@@ -125,7 +125,7 @@ public class BookHotelView extends VerticalLayout {
                     }
 
                 } catch (IOException exception) {
-                    System.out.println(exception);
+                    System.out.println("No hotel pdf File: " + exception);
                 }
             } else Notification.show("Wrong card or cvc number!", 4000, Notification.Position.MIDDLE);
         });

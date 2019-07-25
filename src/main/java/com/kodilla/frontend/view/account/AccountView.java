@@ -141,7 +141,6 @@ public class AccountView extends VerticalLayout {
                     UI.getCurrent().setId("0");
                     //
                     UI.getCurrent().navigate(MainView.class);
-                    UI.getCurrent().getPage().reload();
                 } else {
                     deleteUserInfo.getStyle().set("color", "red");
                     deleteUserInfo.setText("Something went wrong");

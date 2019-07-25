@@ -7,10 +7,10 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class HolidaySearch {
-    public static HorizontalLayout drawHolidayResults(HolidayDto response, String origin, String destination) {
+    public static HorizontalLayout drawHolidayResults(HolidayDto response) {
         Div hotelsResults = HotelSearch.drawHotelResults(response.getHotels(), false);
-        Div tripFlightsResults = FlightSearch.drawFlightResults(response.getTripFlights(), false, origin, destination);
-        Div returnFlightsResults = FlightSearch.drawFlightResults(response.getReturnFlight(), false, destination, origin);
+        Div tripFlightsResults = FlightSearch.drawFlightResults(response.getTripFlights(), false);
+        Div returnFlightsResults = FlightSearch.drawFlightResults(response.getReturnFlight(), false);
 
         return new HorizontalLayout(hotelsResults, tripFlightsResults, returnFlightsResults);
     }

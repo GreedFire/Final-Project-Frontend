@@ -3,7 +3,6 @@ package com.kodilla.frontend.view.flightPage;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
-import com.kodilla.frontend.view.holidayPage.HolidayView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
@@ -35,7 +34,6 @@ public class FlightView extends VerticalLayout {
 
     private TextField fromSearchBox;
     private TextField whereSearchBox;
-    private DatePicker whenSearchBox;
     private Button searchButton;
     private Button historyButton;
     private VerticalLayout searchResultLayout = new VerticalLayout();
@@ -102,12 +100,13 @@ public class FlightView extends VerticalLayout {
 
     private void drawSearchResults(List<FlightDto> response) {
         LOGGER.info("Drawing results");
-        searchResultLayout.add(FlightSearch.drawFlightResults(response, true, fromSearchBox.getValue(), whereSearchBox.getValue()));
+        searchResultLayout.add(FlightSearch.drawFlightResults(response, true));
     }
 
     private void drawSearchMenu() {
         //COMPONENTS
         HorizontalLayout searchLayout = new HorizontalLayout();
+        DatePicker whenSearchBox;
         whereSearchBox = new TextField("Where you want to go?");
         whenSearchBox = new DatePicker("When?");
         fromSearchBox = new TextField("From where?");
@@ -121,12 +120,10 @@ public class FlightView extends VerticalLayout {
         searchLayout.add(fromSearchBox, whereSearchBox, whenSearchBox, searchButton, historyButton);
         add(searchLayout);
 
-        whenSearchBox.addValueChangeListener(event -> {
-            whenDate = event.getValue();
-        });
+        whenSearchBox.addValueChangeListener(event -> whenDate = event.getValue());
     }
 
-    public void drawFlightFilters() {
+    private void drawFlightFilters() {
         //COMPONENTS
         filterNavi = new Div();
         HorizontalLayout filterLayout = new HorizontalLayout();

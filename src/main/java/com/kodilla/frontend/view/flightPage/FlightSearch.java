@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class FlightSearch {
-    public static Div drawFlightResults(List<FlightDto> response, boolean marginAuto, String origin, String destination) {
+    public static Div drawFlightResults(List<FlightDto> response, boolean marginAuto) {
         Div resultDiv = new Div();
         for (FlightDto dto : response) {
             if (marginAuto)

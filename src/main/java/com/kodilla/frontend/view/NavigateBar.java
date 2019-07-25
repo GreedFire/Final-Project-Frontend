@@ -52,22 +52,10 @@ public class NavigateBar extends VerticalLayout {
         menu.getStyle().set("margin", "auto");
 
 
-        menuButton1.addClickListener(e -> {
-            UI.getCurrent().navigate(MainView.class);
-        });
-
-        menuButton2.addClickListener(e -> {
-            UI.getCurrent().navigate(FlightView.class);
-        });
-
-        menuButton3.addClickListener(e -> {
-            UI.getCurrent().navigate(HolidayView.class);
-        });
-
-        menuButton4.addClickListener(e -> {
-            UI.getCurrent().navigate(ReadMeView.class);
-
-        });
+        menuButton1.addClickListener(e -> UI.getCurrent().navigate(MainView.class));
+        menuButton2.addClickListener(e -> UI.getCurrent().navigate(FlightView.class));
+        menuButton3.addClickListener(e -> UI.getCurrent().navigate(HolidayView.class));
+        menuButton4.addClickListener(e -> UI.getCurrent().navigate(ReadMeView.class));
 
         menu.add(menuButton1, menuButton2, menuButton3, menuButton4);
         return menu;
@@ -88,22 +76,14 @@ public class NavigateBar extends VerticalLayout {
         signIn.setVisible(!UI.getCurrent().getId().isPresent());
         signUp.setVisible(!UI.getCurrent().getId().isPresent());
 
-        signIn.addClickListener(e -> {
-            UI.getCurrent().navigate(SignInView.class);
-        });
-
-        signUp.addClickListener(e -> {
-            UI.getCurrent().navigate(SignUpView.class);
-        });
-
-        account.addClickListener(e -> {
-            UI.getCurrent().navigate(AccountView.class);
-        });
+        signIn.addClickListener(e -> UI.getCurrent().navigate(SignInView.class));
+        signUp.addClickListener(e -> UI.getCurrent().navigate(SignUpView.class));
+        account.addClickListener(e -> UI.getCurrent().navigate(AccountView.class));
 
         signOut.addClickListener(e -> {
             RestTemplate restTemplate = new RestTemplate();
             long id = Long.parseLong(UI.getCurrent().getId().get());
-            restTemplate.put(UrlGenerator.userSignOutURL(id),null);
+            restTemplate.put(UrlGenerator.userSignOutURL(id), null);
             LOGGER.info("Logged out user with id " + id);
             UI.getCurrent().setId("0");
             UI.getCurrent().getPage().reload();
