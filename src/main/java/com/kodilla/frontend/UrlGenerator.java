@@ -25,8 +25,7 @@ public class UrlGenerator {
     }
 
     public static URI filterHotelsURL(String searchId, int rating, int stars, int priceMoreThan, int priceLessThan) {
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels/filter")
-                .queryParam("responseId", searchId)
+        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels/filter/" + searchId + "/")
                 .queryParam("rating", rating)
                 .queryParam("stars", stars)
                 .queryParam("priceMore", priceMoreThan)
@@ -35,8 +34,7 @@ public class UrlGenerator {
     }
 
     public static URI filterFlightsURL(long searchId, String carrierClass, int priceMoreThan, int priceLessThan){
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/flights/filter")
-                .queryParam("responseId", searchId)
+        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/flights/filter/" + searchId + "/")
                 .queryParam("carrierClass", carrierClass)
                 .queryParam("priceMoreThan", priceMoreThan)
                 .queryParam("priceLessThan", priceLessThan)
@@ -90,7 +88,7 @@ public class UrlGenerator {
     }
 
     public static URI accountDeleteURL(long id, String password){
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/users/delete")
+        return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/users")
                 .queryParam("id", id)
                 .queryParam("password", password)
                 .build().encode().toUri();

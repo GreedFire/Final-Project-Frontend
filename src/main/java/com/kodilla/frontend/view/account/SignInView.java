@@ -52,9 +52,7 @@ public class SignInView extends VerticalLayout {
             LOGGER.info("Trying to log in user");
             Long id = restTemplate.getForObject(UrlGenerator.getUserIdURL(username.getValue(), password.getValue()), Long.class);
             if(id != null) {
-                System.out.println("UI ID: " + id);
                 UI.getCurrent().setId(Long.toString(id));
-                RestTemplate restTemplate = new RestTemplate();
                 if(UI.getCurrent().getId().isPresent()){
                     long id2 = Long.parseLong(UI.getCurrent().getId().get());
                             restTemplate.put(UrlGenerator.userSignInURL(id2) ,null);
