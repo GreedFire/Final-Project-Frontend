@@ -1,7 +1,10 @@
 package com.kodilla.frontend.view.booking;
 
+import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.invoice.FlightInvoiceDto;
 import com.kodilla.frontend.domain.dto.flight.FlightCarriersDto;
 import com.kodilla.frontend.view.NavigateBar;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
@@ -14,9 +17,13 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 import java.awt.*;
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -24,6 +31,9 @@ import java.time.format.DateTimeFormatter;
 
 @Route
 public class BookFlightView extends VerticalLayout {
+    @Autowired
+    private RestTemplate restTemplate;
+
     private static FlightCarriersDto carrier;
 
     public BookFlightView() {
@@ -72,6 +82,18 @@ public class BookFlightView extends VerticalLayout {
 
         pay.addClickListener(e -> {
             if (cardID.getValue() != null && cvc.getValue() != null) {
+                FlightInvoiceDto invoice = new FlightInvoiceDto(
+                        LocalDate.now(),
+                        carrier.getPrice(),
+                        carrier.getId(),
+                        Long.parseLong(UI.getCurrent().getId().get())
+                );
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<FlightInvoiceDto> request = new HttpEntity<>(invoice, headers);
+                restTemplate.postForObject(UrlGenerator.SAVE_FLIGHT_INVOICE, request, Void.class);
+
                 try {
                     PDDocument document = new PDDocument();
                     PDPage page = new PDPage();
@@ -99,9 +121,9 @@ public class BookFlightView extends VerticalLayout {
                     document.save("C:/travelApp_flight_Invoice.pdf");
                     document.close();
 
-                   File file = new File("C:/travelApp_flight_Invoice.pdf");
+                    File file = new File("C:/travelApp_flight_Invoice.pdf");
                     if (file.toString().endsWith(".pdf"))
-                            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
+                        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
                     else {
                         Desktop desktop = Desktop.getDesktop();
                         desktop.open(file);

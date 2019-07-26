@@ -23,11 +23,9 @@ import java.time.LocalDate;
 @Route
 public class HolidayView extends VerticalLayout {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HolidayView.class);
     @Autowired
     private RestTemplate restTemplate;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(HolidayView.class);
-
     private TextField fromSearchBox;
     private TextField whereSearchBox;
     private Select<Integer> roomSearchBox;
@@ -56,7 +54,7 @@ public class HolidayView extends VerticalLayout {
             URI url = UrlGenerator.holidaySearchURL(roomSearchBox.getValue(), fromSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
             final HolidayDto response = restTemplate.getForObject(url, HolidayDto.class);
-           if (response != null) {
+            if (response != null) {
                 drawSearchResults(response);
             } else Notification.show("NO RESULTS", 4000, Notification.Position.MIDDLE);
         });
@@ -87,7 +85,6 @@ public class HolidayView extends VerticalLayout {
         untilSearchBox = new DatePicker("Until when?");
         whenSearchBox.setPlaceholder(whenDate.toString());
         untilSearchBox.setPlaceholder(untilDate.toString());
-
         //CSS
         searchButton.getStyle().set("margin-top", "37px");
         searchLayout.getStyle().set("margin", "auto");

@@ -13,6 +13,9 @@ public class UrlGenerator {
     public final static String LEFT_PALM_LOGO = "https://i.ibb.co/gtsdn3p/palm-left.png";
     public final static String RIGHT_PALM_LOGO = "https://i.ibb.co/28mQZZR/palm-right.png";
     public final static String CREATE_USER_URL = "http://localhost:8080/v1/users";
+    public final static String SAVE_HOTEL_INVOICE = "http://localhost:8080/v1/invoices/hotels";
+    public final static String SAVE_FLIGHT_INVOICE = "http://localhost:8080/v1/invoices/flights";
+    public final static String SAVE_DEVICE = "http://localhost:8080/v1/devices";
 
     public static URI hotelsSearchURL(int rooms, String where, LocalDate when, LocalDate until, int adult) {
         return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels")
@@ -107,7 +110,6 @@ public class UrlGenerator {
                 .queryParam("id", id)
                 .queryParam("newPassword", newPassword)
                 .build().encode().toUri();
-
     }
 
 

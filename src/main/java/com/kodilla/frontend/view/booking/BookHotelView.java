@@ -1,7 +1,10 @@
 package com.kodilla.frontend.view.booking;
 
+import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.invoice.HotelInvoiceDto;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -15,17 +18,27 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Route
 public class BookHotelView extends VerticalLayout {
-    private static HotelListDto hotel;
 
-    public BookHotelView(){
+    private static HotelListDto hotel;
+    @Autowired
+    private RestTemplate restTemplate;
+
+
+    public BookHotelView() {
         add(NavigateBar.drawAccountNavigateBar());
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
@@ -88,9 +101,19 @@ public class BookHotelView extends VerticalLayout {
         div3.getStyle().set("margin", "auto");
         add(div3);
 
-
         pay.addClickListener(e -> {
             if (cardID.getValue() != null && cvc.getValue() != null) {
+                HotelInvoiceDto invoice = new HotelInvoiceDto(
+                        LocalDate.now(),
+                        new BigDecimal(hotel.getPrice()),
+                        Long.parseLong(hotel.getId()),
+                        Long.parseLong(UI.getCurrent().getId().get())
+                        );
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<HotelInvoiceDto> request = new HttpEntity<>(invoice, headers);
+                restTemplate.postForObject(UrlGenerator.SAVE_HOTEL_INVOICE, request, Void.class);
+
                 try {
                     PDDocument document = new PDDocument();
                     PDPage page = new PDPage();
