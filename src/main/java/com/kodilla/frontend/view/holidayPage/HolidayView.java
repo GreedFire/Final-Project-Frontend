@@ -42,12 +42,12 @@ public class HolidayView extends VerticalLayout {
         add(NavigateBar.drawImage());
         add(NavigateBar.drawNavigateBar());
         drawSearchMenu();
-        Label notworking = new Label("THIS SUBPAGE IS NOT WORKING PROPERLY YET. PLEASE GO TO HOTEL OR FLIGHT");
-        notworking.getStyle().set("fonr-size", "40");
-        notworking.getStyle().set("font-weight", "bold");
-        notworking.getStyle().set("color", "red");
-        notworking.getStyle().set("margin", "auto");
-        add(notworking);
+        Label notWorking = new Label("THIS SUBPAGE IS NOT WORKING PROPERLY YET. PLEASE GO TO HOTEL OR FLIGHT");
+        notWorking.getStyle().set("fonr-size", "40");
+        notWorking.getStyle().set("font-weight", "bold");
+        notWorking.getStyle().set("color", "red");
+        notWorking.getStyle().set("margin", "auto");
+        add(notWorking);
         add(searchResultLayout);
 
         searchButton.addClickListener(e -> {
@@ -70,6 +70,16 @@ public class HolidayView extends VerticalLayout {
     private void drawSearchMenu() {
         //COMPONENTS
         HorizontalLayout searchLayout = new HorizontalLayout();
+        adultSearchBox = new Select<>();
+        adultSearchBox.setLabel("Adults");
+        adultSearchBox.setItems(1, 2, 3, 4);
+        adultSearchBox.setValue(1);
+        searchButton = new Button("SEARCH");
+        fromSearchBox = new TextField("From where?");
+        roomSearchBox = new Select<>();
+        roomSearchBox.setLabel("Rooms");
+        roomSearchBox.setItems(1, 2);
+        roomSearchBox.setValue(1);
         whereSearchBox = new TextField("Where you want to go?");
         DatePicker whenSearchBox;
         DatePicker untilSearchBox;
@@ -77,21 +87,12 @@ public class HolidayView extends VerticalLayout {
         untilSearchBox = new DatePicker("Until when?");
         whenSearchBox.setPlaceholder(whenDate.toString());
         untilSearchBox.setPlaceholder(untilDate.toString());
-        fromSearchBox = new TextField("From where?");
-        roomSearchBox = new Select<>();
-        roomSearchBox.setLabel("Rooms");
-        roomSearchBox.setItems(1, 2);
-        roomSearchBox.setValue(1);
-        adultSearchBox = new Select<>();
-        adultSearchBox.setLabel("Adults");
-        adultSearchBox.setItems(1, 2, 3, 4);
-        adultSearchBox.setValue(1);
-        searchButton = new Button("SEARCH");
+
         //CSS
-        roomSearchBox.getStyle().set("width", "70px");
-        adultSearchBox.getStyle().set("width", "70px");
         searchButton.getStyle().set("margin-top", "37px");
         searchLayout.getStyle().set("margin", "auto");
+        roomSearchBox.getStyle().set("width", "70px");
+        adultSearchBox.getStyle().set("width", "70px");
 
         searchLayout.add(fromSearchBox, whereSearchBox, whenSearchBox, untilSearchBox, roomSearchBox, adultSearchBox,
                 searchButton);
