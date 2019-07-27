@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view.flightPage;
 
+import com.kodilla.frontend.NotificationScheduler;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
@@ -54,6 +55,7 @@ public class FlightView extends VerticalLayout {
         drawSearchMenu();
         drawFlightFilters();
         add(searchResultLayout);
+        Notification.show("The most searched location is: " + NotificationScheduler.mostSearchedLocation);
 
         searchButton.addClickListener(e -> {
             searchResultLayout.removeAll();

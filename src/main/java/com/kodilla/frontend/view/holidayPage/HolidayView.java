@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view.holidayPage;
 
+import com.kodilla.frontend.NotificationScheduler;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.HolidayDto;
 import com.kodilla.frontend.view.NavigateBar;
@@ -47,6 +48,7 @@ public class HolidayView extends VerticalLayout {
         notWorking.getStyle().set("margin", "auto");
         add(notWorking);
         add(searchResultLayout);
+        Notification.show("The most searched location is: " + NotificationScheduler.mostSearchedLocation);
 
         searchButton.addClickListener(e -> {
             searchResultLayout.removeAll();

@@ -1,5 +1,6 @@
 package com.kodilla.frontend.view.hotelPage;
 
+import com.kodilla.frontend.NotificationScheduler;
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
@@ -56,6 +57,7 @@ public class MainView extends VerticalLayout {
         drawSearchMenu();
         drawHotelFilters();
         add(searchResultLayout);
+        Notification.show("The most searched location is: " + NotificationScheduler.mostSearchedLocation);
 
         searchButton.addClickListener(e -> {
             searchResultLayout.removeAll();
