@@ -2,9 +2,8 @@ package com.kodilla.frontend.view.hotelPage;
 
 import com.kodilla.frontend.NotificationScheduler;
 import com.kodilla.frontend.UrlGenerator;
-import com.kodilla.frontend.domain.dto.HotelFiltersDto;
-import com.kodilla.frontend.domain.dto.UserDto;
-import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
+import com.kodilla.frontend.domain.dto.hotel.HotelFiltersDto;
+import com.kodilla.frontend.domain.dto.hotel.HotelDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -22,7 +21,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -69,8 +67,8 @@ public class MainView extends VerticalLayout {
             LOGGER.info("Searching hotels");
             URI preparedUrlForHotelSearch = UrlGenerator.hotelsSearchURL(roomSearchBox.getValue(),
                     whereSearchBox.getValue(), whenDate, untilDate, adultSearchBox.getValue());
-            List<HotelListDto> response = restTemplate.exchange(
-                    preparedUrlForHotelSearch, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+            List<HotelDto> response = restTemplate.exchange(
+                    preparedUrlForHotelSearch, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelDto>>() {
                     }).getBody();
 
             if (response != null && !response.isEmpty()){
@@ -83,8 +81,8 @@ public class MainView extends VerticalLayout {
         historyButton.addClickListener(e -> {
             searchResultLayout.removeAll();
             LOGGER.info("Searching hotels in history");
-            List<HotelListDto> response = restTemplate.exchange(
-                    UrlGenerator.HOTEL_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+            List<HotelDto> response = restTemplate.exchange(
+                    UrlGenerator.HOTEL_HISTORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelDto>>() {
                     }).getBody();
             if (response != null && !response.isEmpty())
                 drawSearchResults(response);
@@ -105,8 +103,8 @@ public class MainView extends VerticalLayout {
                     stars.getValue(), Integer.parseInt(priceMoreThan.getValue()),
                     Integer.parseInt(priceLessThan.getValue()));
 
-            List<HotelListDto> response = restTemplate.exchange(
-                    preparedUrlForFilteredHotels, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelListDto>>() {
+            List<HotelDto> response = restTemplate.exchange(
+                    preparedUrlForFilteredHotels, HttpMethod.GET, null, new ParameterizedTypeReference<List<HotelDto>>() {
                     }).getBody();
             if (response != null && !response.isEmpty())
                 drawSearchResults(response);
@@ -114,7 +112,7 @@ public class MainView extends VerticalLayout {
         });
     }
 
-    private void drawSearchResults(List<HotelListDto> response) {
+    private void drawSearchResults(List<HotelDto> response) {
         if (response != null) {
             LOGGER.info("Drawing results");
             searchResultLayout.add(HotelSearch.drawHotelResults(response, true));

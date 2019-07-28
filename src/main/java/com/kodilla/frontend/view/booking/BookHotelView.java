@@ -2,7 +2,7 @@ package com.kodilla.frontend.view.booking;
 
 import com.kodilla.frontend.UrlGenerator;
 import com.kodilla.frontend.domain.dto.invoice.HotelInvoiceDto;
-import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
+import com.kodilla.frontend.domain.dto.hotel.HotelDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -33,7 +33,7 @@ import java.time.LocalDate;
 @Route
 public class BookHotelView extends VerticalLayout {
 
-    private static HotelListDto hotel;
+    private static HotelDto hotel;
     @Autowired
     private RestTemplate restTemplate;
 
@@ -156,7 +156,7 @@ public class BookHotelView extends VerticalLayout {
 
     }
 
-    public static void setHotel(HotelListDto hotel) {
+    public static void setHotel(HotelDto hotel) {
         BookHotelView.hotel = hotel;
     }
 }

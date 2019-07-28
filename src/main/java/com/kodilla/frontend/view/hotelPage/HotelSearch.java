@@ -1,6 +1,6 @@
 package com.kodilla.frontend.view.hotelPage;
 
-import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
+import com.kodilla.frontend.domain.dto.hotel.HotelDto;
 import com.kodilla.frontend.view.account.SignInView;
 import com.kodilla.frontend.view.booking.BookHotelView;
 import com.vaadin.flow.component.UI;
@@ -15,11 +15,11 @@ import java.util.List;
 
 public class HotelSearch {
 
-    public static Div drawHotelResults(List<HotelListDto> response, boolean marginAuto) {
+    public static Div drawHotelResults(List<HotelDto> response, boolean marginAuto) {
         Div result = new Div();
         if(marginAuto)
              result.getStyle().set("margin", "auto");
-        for (HotelListDto hotel : response) {
+        for (HotelDto hotel : response) {
 
             Div div = new Div();
             div.getStyle().set("margin-bottom", "5px");
