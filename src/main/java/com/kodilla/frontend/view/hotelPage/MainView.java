@@ -2,6 +2,8 @@ package com.kodilla.frontend.view.hotelPage;
 
 import com.kodilla.frontend.NotificationScheduler;
 import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.HotelFiltersDto;
+import com.kodilla.frontend.domain.dto.UserDto;
 import com.kodilla.frontend.domain.dto.hotel.HotelListDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -17,9 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -87,6 +93,13 @@ public class MainView extends VerticalLayout {
 
         filterButton.addClickListener(e -> {
             searchResultLayout.removeAll();
+
+            LOGGER.info("Saving filters");
+            HotelFiltersDto filters = new HotelFiltersDto(rating.getValue(), stars.getValue(), new BigDecimal(priceMoreThan.getValue()), new BigDecimal(priceLessThan.getValue()));
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<HotelFiltersDto> request = new HttpEntity<>(filters, headers);
+            restTemplate.postForObject(UrlGenerator.SAVE_HOTEL_FILTERS, request, Void.class);
+
             LOGGER.info("Filtering hotels");
             URI preparedUrlForFilteredHotels = UrlGenerator.filterHotelsURL(SEARCHID, rating.getValue(),
                     stars.getValue(), Integer.parseInt(priceMoreThan.getValue()),

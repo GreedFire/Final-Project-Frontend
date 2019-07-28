@@ -17,6 +17,8 @@ public class UrlGenerator {
     public final static String SAVE_FLIGHT_INVOICE = "http://localhost:8080/v1/invoices/flights";
     public final static String SAVE_DEVICE = "http://localhost:8080/v1/devices";
     public final static String MOST_INTERESTED_LOCATION = "http://localhost:8080/v1/hotels/location/mostInterested";
+    public final static String SAVE_HOTEL_FILTERS = "http://localhost:8080/v1/hotels/filter";
+    public final static String SAVE_FLIGHT_FILTERS = "http://localhost:8080/v1/flights/filter";
 
     public static URI hotelsSearchURL(int rooms, String where, LocalDate when, LocalDate until, int adult) {
         return UriComponentsBuilder.fromHttpUrl("http://localhost:8080/v1/hotels")

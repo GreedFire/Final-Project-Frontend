@@ -2,6 +2,7 @@ package com.kodilla.frontend.view.flightPage;
 
 import com.kodilla.frontend.NotificationScheduler;
 import com.kodilla.frontend.UrlGenerator;
+import com.kodilla.frontend.domain.dto.FlightFiltersDto;
 import com.kodilla.frontend.domain.dto.flight.FlightDto;
 import com.kodilla.frontend.view.NavigateBar;
 import com.vaadin.flow.component.button.Button;
@@ -17,10 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -85,6 +89,12 @@ public class FlightView extends VerticalLayout {
 
         filterButton.addClickListener(e -> {
             searchResultLayout.removeAll();
+            LOGGER.info("Save flights filters");
+            FlightFiltersDto filters = new FlightFiltersDto(carrierClass.getValue(), new BigDecimal(priceMoreThan.getValue()), new BigDecimal(priceLessThan.getValue()));
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<FlightFiltersDto> request = new HttpEntity<>(filters, headers);
+            restTemplate.postForObject(UrlGenerator.SAVE_FLIGHT_FILTERS, request, Void.class);
+
             LOGGER.info("Filtering flights");
             URI url = UrlGenerator.filterFlightsURL(SEARCHID, carrierClass.getValue(),
                     Integer.parseInt(priceMoreThan.getValue()), Integer.parseInt(priceLessThan.getValue()));

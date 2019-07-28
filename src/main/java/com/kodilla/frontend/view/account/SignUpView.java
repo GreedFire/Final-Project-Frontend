@@ -120,7 +120,6 @@ public class SignUpView extends VerticalLayout {
                 System.out.println("Failed to bind data in register tab: " + e);
             }
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<UserDto> request = new HttpEntity<>(userDto, headers);
             LOGGER.info("Creating user");
             Boolean authenticate = restTemplate.postForObject(UrlGenerator.CREATE_USER_URL, request, Boolean.class);
