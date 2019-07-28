@@ -47,7 +47,6 @@ public class MainView extends VerticalLayout {
     private TextField priceMoreThan;
     private TextField priceLessThan;
     private Button filterButton = new Button("Filter");
-
     private String SEARCHID;
 
     public MainView() {
