@@ -18,7 +18,7 @@ public class NotificationScheduler {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 30000)
     public void getInfo(){
         HotelLiteDto hotelLiteDto = restTemplate.getForObject(UrlGenerator.MOST_INTERESTED_LOCATION, HotelLiteDto.class);
         if(hotelLiteDto != null)
