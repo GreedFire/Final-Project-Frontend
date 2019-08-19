@@ -118,10 +118,10 @@ public class BookFlightView extends VerticalLayout {
 
                     contentStream.close();
 
-                    document.save("C:/travelApp_flight_Invoice.pdf");
+                    document.save("D:/travelApp_flight_Invoice.pdf");
                     document.close();
 
-                    File file = new File("C:/travelApp_flight_Invoice.pdf");
+                    File file = new File("D:/travelApp_flight_Invoice.pdf");
                     if (file.toString().endsWith(".pdf"))
                         Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
                     else {
